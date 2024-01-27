@@ -22,7 +22,7 @@ public class TC10_Subscription_Test_TC10_TC11After____ extends TestBaseBeforeAft
 
     @Test(priority = 0)
     public void verifySubscriptionInHomePage_TC10(){
-        //Test Case-21 VERIFYING SUBSCRIPTION ON FOOTER
+        //Test Case-10 VERIFYING SUBSCRIPTION ON FOOTER IN HOMEPAGE
         subscriptionPage = new SubscriptionPage();
 
         //Test Case 10: Verify Subscription in home page
@@ -39,10 +39,10 @@ public class TC10_Subscription_Test_TC10_TC11After____ extends TestBaseBeforeAft
 
         //6. Enter email address in input and click arrow button
         subscriptionPage.subscriptionMail_TextBox.sendKeys(randomEmail(5));
-
+        subscriptionPage.subscribe_button.click();
         //7. Verify success message 'You have been successfully subscribed!' is visible
         Assert.assertTrue(subscriptionPage.subscribedMsg_text.isDisplayed()
-                ,"You have been successfully subscribed! text is not displayed");
+                ,"You have been successfully subscribed! message is not displayed");
     }
 
 
@@ -58,7 +58,7 @@ public class TC10_Subscription_Test_TC10_TC11After____ extends TestBaseBeforeAft
 
     @Test(priority = 1)
     public void verifySubscriptionInCartPage_TC11(){
-        //Test Case-11
+        //Test Case-11  VERIFYING SUBSCRIPTION ON FOOTER IN CART PAGE
         subscriptionPage = new SubscriptionPage();
 
         //Test Case 11: Verify Subscription in Cart page
@@ -84,14 +84,4 @@ public class TC10_Subscription_Test_TC10_TC11After____ extends TestBaseBeforeAft
         Assert.assertTrue(subscriptionPage.subscribedMsg_text.isDisplayed()
                 ,"You have been successfully subscribed! message is not displayed");
     }
-
-
-
-
-
-
-
-
-
-
 }

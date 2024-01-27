@@ -1,9 +1,6 @@
 package AutomationExercise_Project_TestNG.utilities;
 
-import AutomationExercise_Project_TestNG.pages.HomePage;
-import AutomationExercise_Project_TestNG.pages.LoginPage;
-import AutomationExercise_Project_TestNG.pages.ProductsPage;
-import AutomationExercise_Project_TestNG.pages.RegistrationPage;
+import AutomationExercise_Project_TestNG.pages.*;
 import com.github.javafaker.Faker;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -532,22 +529,22 @@ public class ReusableMethods {
 
 
     public static void logoutUser() {
-        LoginPage loginpage= new LoginPage();
+        LoginPage loginpage = new LoginPage();
         loginpage.logout_button.click();
     }
 
-    public static void verifyLandedToHomePage(){
-        HomePage homePage= new HomePage();
+    public static void verifyLandedToHomePage() {
+        HomePage homePage = new HomePage();
         String expectedUrl = "https://automationexercise.com/";
         String actualUrl = Driver.getDriver().getCurrentUrl();
         Assert.assertEquals(actualUrl, expectedUrl, "anasayda url dogru degil");
         Assert.assertTrue(homePage.adsOfHomepage.isDisplayed(), "Anasayfa Reklamları goruntulenmiyor");
     }
 
-    public static void handleGoogleVignette(Runnable block)  {
+    public static void handleGoogleVignette(Runnable block) {
         if (Driver.getDriver().getCurrentUrl().contains("google_vignette")) {
             Driver.getDriver().navigate().refresh();
-           block.run();
+            block.run();
             // scrollIntoViewAndClickByJavaScript(contactUsPage.home_button);
             waitFor(1);
         }
@@ -566,7 +563,7 @@ public class ReusableMethods {
     }
 
 
-    public static void verifyProductDetails(String productDetails){
+    public static void verifyProductDetails(String productDetails) {
         ProductsPage productsPage = new ProductsPage();
         Assert.assertTrue(productsPage.firstProductInfo_text.getText()
                         .contains(productDetails)
@@ -590,7 +587,7 @@ public class ReusableMethods {
         softassert.assertAll();
     }
 
-    public static String getFirstProduct(){
+    public static String getFirstProduct() {
         ProductsPage productsPage = new ProductsPage();
         String firstProduct = productsPage.allProducts_list.get(0).getText();
         firstProduct = firstProduct.replace("Add to cart", "")
@@ -607,7 +604,7 @@ public class ReusableMethods {
         String parentWindow = Driver.getDriver().getWindowHandle();
         List<String> windowsHandles;
 
-       // handleGoogleVignette(()->Driver.getDriver().navigate().refresh());
+        // handleGoogleVignette(()->Driver.getDriver().navigate().refresh());
         for (int i = 0; i < products_list.size(); i++) {
             actions.keyDown(Keys.CONTROL)
                     .moveToElement(
@@ -627,20 +624,117 @@ public class ReusableMethods {
         }
     }
 
+    public static Map<String, List<String>> getTwoProductsNameAndPriceBeforeCart() {
+        CartPage cartPage = new CartPage();
+        Actions actions = new Actions(Driver.getDriver());
+        Map<String, List<String>> twoProductsInfo = new HashMap<>();
+        List<WebElement> products_List = cartPage.viewProduct_Buttons;
+        String windowHandle = Driver.getDriver().getWindowHandle();
+        List<String> windowHandles;
+        List<String> productNames_list = new ArrayList<>();
+        List<String> productPrice_list = new ArrayList<>();
 
 
+        for (int i = 0; i < 2; i++) {
+            actions.keyDown(Keys.CONTROL)
+                    .moveToElement(
+                            products_List.get(i))
+                    .click().keyUp(Keys.CONTROL).build().perform();
+            waitFor(1);
 
 
+            handleGoogleVignette(() -> Driver.getDriver().navigate().refresh());
+
+            windowHandles = new ArrayList<>(Driver.getDriver().getWindowHandles());
+
+            if (windowHandles.size()==1){ actions.keyDown(Keys.CONTROL).moveToElement(products_List.get(i))
+                    .click().keyUp(Keys.CONTROL).build().perform();
+                windowHandles = new ArrayList<>(Driver.getDriver().getWindowHandles());}
+            Driver.getDriver().switchTo().window(windowHandles.get(1));
+            Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+           // waitFor(1);
+
+            System.out.println("Product name  -> " + cartPage.productName_Text.getText());
+            productNames_list.add(cartPage.productName_Text.getText());
 
 
+            String price = cartPage.productsAllInfo_Text.getText();
+            price = price.substring(price.indexOf("Rs."), price.indexOf("Quantity")).trim();
+            productPrice_list.add(price);
+
+            Driver.getDriver().close();
+            Driver.getDriver().switchTo().window(windowHandle);
+            twoProductsInfo.put("productsName", productNames_list);
+            twoProductsInfo.put("productsPrice", productPrice_list);
+
+        }
 
 
+        return twoProductsInfo;
+    }
 
 
+    public static void validateTwoProductsNamePriceQuantity(Map<String,List<String>> map) {
+        CartPage cartPage = new CartPage();
+        String expectedTotalPriceInCart_firstProduct = String.valueOf(Integer.parseInt(map.get("productsPrice").get(0).replaceAll("\\D", ""))
+                * Integer.parseInt(cartPage.firstProductInCart_quantity.getText()));
 
+        String expectedTotalPriceInCart_secondProduct = String.valueOf(Integer.parseInt(map.get("productsPrice").get(1).replaceAll("\\D", ""))
+                * Integer.parseInt(cartPage.secondProductInCart_quantity.getText()));
 
+       SoftAssert softAssert = new SoftAssert();
+        // 1 ürün kontrol ,name, prices, quantity and total price
 
+        softAssert.assertEquals(cartPage.firstProductInCart_name.getText().toLowerCase()
+                , map.get("productsName").get(0).toLowerCase()
+                , "the name of the first product in cart is not the same with the product name added to cart");
+
+        softAssert.assertEquals(cartPage.firstProductInCart_price.getText().toLowerCase()
+                , map.get("productsPrice").get(0).toLowerCase()
+                , "Price of the First products in cart isn't same the actual price");
+
+        softAssert.assertEquals(cartPage.firstProductInCart_quantity.getText().toLowerCase()
+                , "1"
+                , "Quantity of the First product in cart isn't same with the expected quantity");
+
+        softAssert.assertTrue(cartPage.firstProductInCart_totalPrice.getText()
+                        .contains(expectedTotalPriceInCart_firstProduct)
+                , "the Total Price of the first product is not correct as expected");
+
+        // 2. ürün kontrol ,name, prices, quantity and total price
+        softAssert.assertEquals(cartPage.secondProductInCart_name.getText().toLowerCase()
+                , map.get("productsName").get(1).toLowerCase()
+                , "the name of the second product in cart is not the same with the product name added to cart");
+        softAssert.assertEquals(cartPage.secondProductInCart_price.getText().toLowerCase()
+                , map.get("productsPrice").get(1).toLowerCase()
+                , "Price of the Second products in cart isn't same the actual price");
+        softAssert.assertEquals(cartPage.secondProductInCart_quantity.getText().toLowerCase()
+                , "2"
+                , "Quantity of the Second product in cart isn't same with the expected quantity");
+        softAssert.assertTrue(cartPage.secondProductInCart_totalPrice.getText()
+                        .contains(expectedTotalPriceInCart_secondProduct)
+                , "the Total Price of the Second product is not correct as expected");
+        softAssert.assertAll();
+    }
 
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

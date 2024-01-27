@@ -9,10 +9,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import static AutomationExercise_Project_TestNG.utilities.ReusableMethods.*;
@@ -32,10 +34,11 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
     //10. Verify their prices, quantity and total price
     CartPage cartPage;
     Actions actions;
+    SoftAssert softAssert;
 
     @Test
     public void addProductsInCart_Test_TC12() {
-
+        //Test Case-12 VERIFIES ADDED PRODUCTS TO CART
         cartPage = new CartPage();
         actions = new Actions(Driver.getDriver());
         //Test Case 12: Add Products in Cart
@@ -59,137 +62,65 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
         waitFor(1);
         cartPage.addToCart_secondProduct_Button.click();
         cartPage.continueShopping_Button.click();
+
         //getting product names
-        List<WebElement> products_list = cartPage.viewProduct_Buttons;
-
-        String parentWindow = Driver.getDriver().getWindowHandle();
-        List<String> windowsHandles;
-        List<String> productNames_list = new ArrayList<>();
-        List<String> productPrice_list = new ArrayList<>();
-
-
-        for (int i = 0; i < 2; i++) {
-            actions.keyDown(Keys.CONTROL)
-                    .moveToElement(
-                            products_list.get(i))
-                    .click().keyUp(Keys.CONTROL).build().perform();
-            waitFor(2);
-
-
-            handleGoogleVignette(() -> Driver.getDriver().navigate().refresh());
-
-            windowsHandles = new ArrayList<>(Driver.getDriver().getWindowHandles());
-
-
-            Driver.getDriver().switchTo().window(windowsHandles.get(1));
-            Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
-            waitFor(1);
-
-            System.out.println("Product name  -> " + cartPage.productName_Text.getText());
-            productNames_list.add(cartPage.productName_Text.getText());
-
-
-            String price = cartPage.productsAllInfo_Text.getText();
-            price = price.substring(price.indexOf("Rs."), price.indexOf("Quantity")).trim();
-            productPrice_list.add(price);
-
-            Driver.getDriver().close();
-            Driver.getDriver().switchTo().window(parentWindow);
-        }
+        Map<String, List<String>> productsMap = getTwoProductsNameAndPriceBeforeCart();
 
         //8. Click 'View Cart' button
         actions.moveToElement(cartPage.second_product);
         waitFor(1);
         cartPage.addToCart_secondProduct_Button.click();
-
         cartPage.viewCart_Button.click();
 
         //9. Verify both products are added to Cart
         List<WebElement> inCartProducts = new ArrayList<>(cartPage.addedProductsToCart);
-
         for (int i = 0; i < inCartProducts.size(); i++) {
             Assert.assertTrue(inCartProducts.get(i).getText().toLowerCase()
-                            .contains(productNames_list.get(i).toLowerCase())
-                    , "carta eklenen 2 urun bulunamadı");
+                            .contains(productsMap.get("productsName").get(i).toLowerCase())
+                    , "Both of the products are not found ");
         }
 
-
-        //   inCartProducts.stream().forEach(t -> System.out.println("inCartProducts-------------\n" + t.getText()));
         //10. Verify their prices, quantity and total price
-
-        String expectedTotalPriceInCart_firstProduct = String.valueOf(Integer.parseInt(productPrice_list.get(0).replaceAll("\\D", ""))
-                * Integer.parseInt(cartPage.firstProductInCart_quantity.getText()));
-
-        String expectedTotalPriceInCart_secondProduct = String.valueOf(Integer.parseInt(productPrice_list.get(1).replaceAll("\\D", ""))
-                * Integer.parseInt(cartPage.secondProductInCart_quantity.getText()));
-
-
-        // 1 ürün kontrol ,name, prices, quantity and total price
-
-        Assert.assertEquals(cartPage.firstProductInCart_name.getText().toLowerCase()
-                , productNames_list.get(0).toLowerCase()
-                , "the name of the first product in cart is not the same with the product name added to cart");
-
-        Assert.assertEquals(cartPage.firstProductInCart_price.getText().toLowerCase()
-                , productPrice_list.get(0).toLowerCase()
-                , "Price of the First products in cart isn't same the actual price");
-
-        Assert.assertEquals(cartPage.firstProductInCart_quantity.getText().toLowerCase()
-                , "1"
-                , "Quantity of the First product in cart isn't same with the expected quantity");
-
-        Assert.assertTrue(cartPage.firstProductInCart_totalPrice.getText()
-                        .contains(expectedTotalPriceInCart_firstProduct)
-                , "the Total Price of the first product is not correct as expected");
-
-
-        // 2. ürün kontrol ,name, prices, quantity and total price
-
-        Assert.assertEquals(cartPage.secondProductInCart_name.getText().toLowerCase()
-                , productNames_list.get(1).toLowerCase()
-                , "the name of the second product in cart is not the same with the product name added to cart");
-
-        Assert.assertEquals(cartPage.secondProductInCart_price.getText().toLowerCase()
-                , productPrice_list.get(1).toLowerCase()
-                , "Price of the Second products in cart isn't same the actual price");
-
-        Assert.assertEquals(cartPage.secondProductInCart_quantity.getText().toLowerCase()
-                , "2"
-                , "Quantity of the Second product in cart isn't same with the expected quantity");
-
-        Assert.assertTrue(cartPage.secondProductInCart_totalPrice.getText()
-                        .contains(expectedTotalPriceInCart_secondProduct)
-                , "the Total Price of the Second product is not correct as expected");
+        validateTwoProductsNamePriceQuantity(productsMap);
     }
 
 
+    //Test Case 13: Verify Product quantity in Cart
+    //1. Launch browser
+    //2. Navigate to url 'http://automationexercise.com'
+    //3. Verify that home page is visible successfully
+    //4. Click 'View Product' for any product on home page
+    //5. Verify product detail is opened
+    //6. Increase quantity to 4
+    //7. Click 'Add to cart' button
+    //8. Click 'View Cart' button
+    //9. Verify that product is displayed in cart page with exact quantity
     Random rnd;
+    List<WebElement> viewProductsButtons_list;
 
     @Test
     public void verifyProductQuantityInCart_Test_TC13() {
-
+        //Test Case-13 VERIFIES ADDED PRODUCTS QUANTITY TO CART
         cartPage = new CartPage();
         //Test Case 13: Verify Product quantity in Cart
         //1. Launch browser
         //2. Navigate to url 'http://automationexercise.com'
         //3. Verify that home page is visible successfully
-
         //4. Click 'View Product' for any product on home page
-
         rnd = new Random();
-        List<WebElement> viewProductsButtons_list = new ArrayList<>(cartPage.viewProduct_Buttons);
+        viewProductsButtons_list = new ArrayList<>(cartPage.viewProduct_Buttons);
         scrollIntoViewAndClickByJavaScript(viewProductsButtons_list.get(rnd.nextInt(0, viewProductsButtons_list.size())));
 
         //5. Verify product detail is opened
-        if (Driver.getDriver().getCurrentUrl().contains("google_vignette")) {
+        scrollIntoViewAndClickByJavaScript(viewProductsButtons_list.get(rnd.nextInt(0, viewProductsButtons_list.size() + 1)));
+        handleGoogleVignette(() -> {
             Driver.getDriver().navigate().refresh();
-            viewProductsButtons_list = new ArrayList<>(cartPage.viewProduct_Buttons);
             scrollIntoViewAndClickByJavaScript(viewProductsButtons_list.get(rnd.nextInt(0, viewProductsButtons_list.size() + 1)));
-        }
-        Assert.assertTrue(Driver.getDriver().getCurrentUrl().contains("details"), "product details Url is wrong");
-        Assert.assertFalse(cartPage.productsAllInfo_Text.getText().isEmpty(), "The product details were not loaded or displayed");
+        });
+        Assert.assertTrue(Driver.getDriver().getCurrentUrl().contains("details"), "product details' Url is wrong");
+        Assert.assertFalse(cartPage.productsAllInfo_Text.getText().isEmpty(), "The product details are not loaded or displayed");
 
-        //6. Increase quantity to 4
+        //6. Increase quantity to 4 - any quantity
         cartPage.quantityNumber.clear();
         String expectedQuantity = String.valueOf(rnd.nextInt(0, 10));
         cartPage.quantityNumber.sendKeys(expectedQuantity);
@@ -203,9 +134,11 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
         //9. Verify that product is displayed in cart page with exact quantity
         Assert.assertEquals(cartPage.firstProductInCart_quantity.getText(), expectedQuantity
                 , "The actual quantity of the product is not same with expected quantity");
-
-
+        Assert.assertTrue(Integer.parseInt(cartPage.firstProductInCart_quantity.getText())>0
+                , "The actual quantity of the product is zero");
     }
+
+    //-----------------BURADA KALDIM------------------------------
 
     @Test
     public void removeProductsFromCart_TC17() throws InterruptedException {
