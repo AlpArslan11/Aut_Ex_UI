@@ -139,8 +139,6 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
                 , "The actual quantity of the product is zero");
     }
 
-
-
     @Description("""
             Test Case 17: Remove Products From Cart
             1. Launch browser
@@ -153,7 +151,7 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
             8. Verify that product is removed from the cart
             """)
     @Test(description = "Test Case-17 VERIFIES REMOVING ITEMS IN CART PAGE")
-    public void removeProductsFromCart_TC17() throws InterruptedException {
+    public void removeProductsFromCart_TC17() {
         cartPage = new CartPage();
         rnd = new Random();
         //Test Case 17: Remove Products From Cart
@@ -173,48 +171,30 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
 
         //6. Verify that cart page is displayed
         Assert.assertTrue(cartPage.shoppingCart_text.getText().toLowerCase()
-                .contains("shopping cart"), "Cart Page isnt displayed");
+                .contains("shopping cart"), "Cart Page is not displayed");
 
         //7. Click 'X' button corresponding to particular product
-        List<WebElement> xbuttonList = cartPage.xButton_List;
-        List<WebElement> productDesc_List = cartPage.product_description;
-        int productDescriptionItemCount = productDesc_List.size();
-        Assert.assertEquals(xbuttonList.size(), productDesc_List.size()
-                , "X button number and items in cart's number is not equal");
-
-        int elementToBeDeletedIndex = rnd.nextInt(0, xbuttonList.size());
-        String deletedElementText = productDesc_List.get(elementToBeDeletedIndex).getText();
-        xbuttonList.get(elementToBeDeletedIndex).click();
-
-
         //8. Verify that product is removed from the cart
-        xbuttonList = cartPage.xButton_List;
-
-        Assert.assertTrue(productDescriptionItemCount > xbuttonList.size()
-                , "items in cart's number is not bigger than X button number. " +
-                        "Expected; items in cart's number should be more than X button number.");
-
-        productDesc_List = cartPage.product_description;
-        Assert.assertFalse(productDesc_List.contains(deletedElementText));
-
+        deleteProductAndVerifyDeletedItemInCartPage();
     }
-
-    @Test
+@Description("""
+        
+        Test Case 20: Search Products and Verify Cart After Login
+        1. Launch browser
+        2. Navigate to url 'http://automationexercise.com'
+        3. Click on 'Products' button
+        4. Verify user is navigated to ALL PRODUCTS page successfully
+        5. Enter product name in search input and click search button
+        6. Verify 'SEARCHED PRODUCTS' is visible
+        7. Verify all the products related to search are visible
+        8. Add those products to cart
+        9. Click 'Cart' button and verify that products are visible in cart
+        10. Click 'Signup / Login' button and submit login details
+        11. Again, go to Cart page
+        12. Verify that those products are visible in cart after login as well
+        """)
+    @Test(description = "Test Case-20 SEARCH PRODUCTS AND VERIFIES CART")
     public void searchProductsAndVerifyCartAfterLogin_Test_TC20() throws InterruptedException {
-
-        //Test Case 20: Search Products and Verify Cart After Login
-        //1. Launch browser
-        //2. Navigate to url 'http://automationexercise.com'
-        //3. Click on 'Products' button
-        //4. Verify user is navigated to ALL PRODUCTS page successfully
-        //5. Enter product name in search input and click search button
-        //6. Verify 'SEARCHED PRODUCTS' is visible
-        //7. Verify all the products related to search are visible
-        //8. Add those products to cart
-        //9. Click 'Cart' button and verify that products are visible in cart
-        //10. Click 'Signup / Login' button and submit login details
-        //11. Again, go to Cart page
-        //12. Verify that those products are visible in cart after login as well
 
 
         cartPage = new CartPage();
@@ -226,16 +206,18 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
         //3. Click on 'Products' button
 
         cartPage.products_Button.click();
-        if (Driver.getDriver().getCurrentUrl().contains("google_vignette")) {
-            Driver.getDriver().navigate().refresh();
-            cartPage.products_Button.click();
-        }
+        handleGoogleVignette(() -> cartPage.products_Button.click());
 
         //4. Verify user is navigated to ALL PRODUCTS page successfully ---------------------------------------------------------------------------------------
         Assert.assertTrue(cartPage.titleInTheCenterOfPage_Text.getText().toLowerCase()
                 .contains("all products"), "ALL PRODUCTS page is not verified");
 
         //5. Enter product name in search input and click search button ---------------------------------------------------------------------------------------
+
+
+
+
+
         List<String> searchProducts_List = getTestDataFromExcel("resources/test_data.xlsx", "test_data", 1);
         //searchProducts_List.stream().forEach(t -> System.out.println("excel data ->  " + t));
         String searchTerms = searchProducts_List.get(rnd.nextInt(0, searchProducts_List.size()));

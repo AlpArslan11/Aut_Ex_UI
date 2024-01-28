@@ -717,7 +717,34 @@ public class ReusableMethods {
         softAssert.assertAll();
     }
 
+    public static void deleteProductAndVerifyDeletedItemInCartPage(){
+        CartPage cartPage=new CartPage();
+        Random rnd= new Random();
+        int xButtonFirstCount = cartPage.xButton_List.size();
 
+        List<WebElement> productDescription_List = cartPage.product_description;
+        int productsDescriptionCount = productDescription_List.size();
+
+        int xButtonToBeDeleted_index = rnd.nextInt(0, xButtonFirstCount);
+        String xButtonToBeDeleted_Text = productDescription_List.get(xButtonToBeDeleted_index).getText().toLowerCase();
+        cartPage.xButton_List.get(xButtonToBeDeleted_index).click();  //clicked random X button
+
+        Assert.assertEquals(xButtonFirstCount, productDescription_List.size()
+                , "X button number and items' number in cart page  is not equal");
+
+        //8. Verify that product is removed from the cart
+        waitFor(1);
+        int xButtonSecondCount = cartPage.xButton_List.size();
+        Assert.assertTrue(productsDescriptionCount > xButtonSecondCount
+                , "items in cart's number is not bigger than X button number. " +
+                        "Expected; items in cart's number should be more than X button number.");
+
+        productDescription_List = cartPage.product_description;
+        for (WebElement e: productDescription_List
+        ) {
+            Assert.assertFalse(e.getText().toLowerCase().contains(xButtonToBeDeleted_Text));
+        }
+    }
 
 }
 

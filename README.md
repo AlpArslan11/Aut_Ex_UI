@@ -22,7 +22,9 @@ Turkish assertion text
 
 clear all souts from reusableMethods and classes
 
-Declaration - new Object lines 
+Declaration - new Object lines
+
+deleteing souts
 
 Create Readme file
 
