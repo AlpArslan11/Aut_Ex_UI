@@ -4,6 +4,7 @@ import AutomationExercise_Project_TestNG.pages.CartPage;
 import AutomationExercise_Project_TestNG.utilities.ConfigReader;
 import AutomationExercise_Project_TestNG.utilities.Driver;
 import AutomationExercise_Project_TestNG.utilities.TestBaseBeforeAfterMethod;
+import jdk.jfr.Description;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -20,25 +21,24 @@ import java.util.Random;
 import static AutomationExercise_Project_TestNG.utilities.ReusableMethods.*;
 
 public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfterMethod {
-
-    // Test Case 12: Add Products in Cart
-    //1. Launch browser
-    //2. Navigate to url 'http://automationexercise.com'
-    //3. Verify that home page is visible successfully
-    //4. Click 'Products' button
-    //5. Hover over first product and click 'Add to cart'
-    //6. Click 'Continue Shopping' button
-    //7. Hover over second product and click 'Add to cart'
-    //8. Click 'View Cart' button
-    //9. Verify both products are added to Cart
-    //10. Verify their prices, quantity and total price
     CartPage cartPage;
     Actions actions;
-    SoftAssert softAssert;
 
-    @Test
+    @Description("""
+            Test Case 12: Add Products in Cart
+            1. Launch browser
+            2. Navigate to url 'http://automationexercise.com'
+            3. Verify that home page is visible successfully
+            4. Click 'Products' button
+            5. Hover over first product and click 'Add to cart'
+            6. Click 'Continue Shopping' button
+            7. Hover over second product and click 'Add to cart'
+            8. Click 'View Cart' button
+            9. Verify both products are added to Cart
+            10. Verify their prices, quantity and total price
+            """)
+    @Test(description = "Test Case-12 VERIFIES ADDED PRODUCTS TO CART")
     public void addProductsInCart_Test_TC12() {
-        //Test Case-12 VERIFIES ADDED PRODUCTS TO CART
         cartPage = new CartPage();
         actions = new Actions(Driver.getDriver());
         //Test Case 12: Add Products in Cart
@@ -85,22 +85,23 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
     }
 
 
-    //Test Case 13: Verify Product quantity in Cart
-    //1. Launch browser
-    //2. Navigate to url 'http://automationexercise.com'
-    //3. Verify that home page is visible successfully
-    //4. Click 'View Product' for any product on home page
-    //5. Verify product detail is opened
-    //6. Increase quantity to 4
-    //7. Click 'Add to cart' button
-    //8. Click 'View Cart' button
-    //9. Verify that product is displayed in cart page with exact quantity
     Random rnd;
     List<WebElement> viewProductsButtons_list;
 
-    @Test
+    @Description("""
+            Test Case 13: Verify Product quantity in Cart
+            1. Launch browser
+            2. Navigate to url 'http://automationexercise.com'
+            3. Verify that home page is visible successfully
+            4. Click 'View Product' for any product on home page
+            5. Verify product detail is opened
+            6. Increase quantity to 4
+            7. Click 'Add to cart' button
+            8. Click 'View Cart' button
+            9. Verify that product is displayed in cart page with exact quantity
+             """)
+    @Test(description = "Test Case-13 VERIFIES ADDED PRODUCTS QUANTITY TO CART")
     public void verifyProductQuantityInCart_Test_TC13() {
-        //Test Case-13 VERIFIES ADDED PRODUCTS QUANTITY TO CART
         cartPage = new CartPage();
         //Test Case 13: Verify Product quantity in Cart
         //1. Launch browser
@@ -134,13 +135,24 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
         //9. Verify that product is displayed in cart page with exact quantity
         Assert.assertEquals(cartPage.firstProductInCart_quantity.getText(), expectedQuantity
                 , "The actual quantity of the product is not same with expected quantity");
-        Assert.assertTrue(Integer.parseInt(cartPage.firstProductInCart_quantity.getText())>0
+        Assert.assertTrue(Integer.parseInt(cartPage.firstProductInCart_quantity.getText()) > 0
                 , "The actual quantity of the product is zero");
     }
 
-    //-----------------BURADA KALDIM------------------------------
 
-    @Test
+
+    @Description("""
+            Test Case 17: Remove Products From Cart
+            1. Launch browser
+            2. Navigate to url 'http://automationexercise.com'
+            3. Verify that home page is visible successfully
+            4. Add products to cart
+            5. Click 'Cart' button
+            6. Verify that cart page is displayed
+            7. Click 'X' button corresponding to particular product
+            8. Verify that product is removed from the cart
+            """)
+    @Test(description = "Test Case-17 VERIFIES REMOVING ITEMS IN CART PAGE")
     public void removeProductsFromCart_TC17() throws InterruptedException {
         cartPage = new CartPage();
         rnd = new Random();
