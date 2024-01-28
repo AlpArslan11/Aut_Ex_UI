@@ -51,8 +51,6 @@ public class CartPage {
     @FindBy(xpath = "//*[@class='product-information']")
     public WebElement productsAllInfo_Text;
 
-
-
     @FindBy(xpath = "//*[@href='/product_details/1']")
     public WebElement firstProductInCart_name;
 
@@ -144,6 +142,9 @@ public class CartPage {
 
     @FindBy (xpath = "//*[@class='cart_description']//a")
     public List<WebElement> productNamesInCart_List;
+
+    @FindBy (xpath = "//div[@class='productinfo text-center']/p")
+    public List<WebElement> productsNameInSearchPage_List;
 
 
 }

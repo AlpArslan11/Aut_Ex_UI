@@ -610,18 +610,43 @@ public class ReusableMethods {
                     .moveToElement(
                             products_list.get(i))
                     .click().keyUp(Keys.CONTROL).build().perform();
+            if (Driver.getDriver().getCurrentUrl().contains("google_vignette")) {
+                Driver.getDriver().navigate().refresh();
+                actions.moveToElement(products_list.get(i))
+                        .keyDown(Keys.CONTROL)
+                        .click().keyUp(Keys.CONTROL).build().perform();
+            }
 
             windowsHandles = new ArrayList<>(Driver.getDriver().getWindowHandles());
             Driver.getDriver().switchTo().window(windowsHandles.get(1));
             Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
-            System.out.println("Product name  - " + productsPage.productName_Text.getText());
-            System.out.println("category bilgisi" + productsPage.categoryOfTheProduct.getText());
-            Assert.assertTrue(productsPage.categoryOfTheProduct.getText().toLowerCase()
+
+            //        System.out.println("Product name  - " + productsPage.productName_Text.getText());
+            //        System.out.println("category bilgisi" + productsPage.categoryOfTheProduct.getText());
+            Assert.assertTrue(productsPage.productsAllInfo_Text.getText().toLowerCase()
                     .contains(wordToBeSearched.toLowerCase()));
-            System.out.println("ürün " + (i + 1) + " kontrol edildi");
+            //         System.out.println("ürün " + (i + 1) + " kontrol edildi");
+
             Driver.getDriver().close();
             Driver.getDriver().switchTo().window(parentWindow);
-        }
+
+            windowsHandles = new ArrayList<>(Driver.getDriver().getWindowHandles());
+            if (windowsHandles.size() > 1) {
+                for (int j = 1; j<= windowsHandles.size(); j++) {
+                    Driver.getDriver().switchTo().window(windowsHandles.get(j));
+                    Driver.closeDriver();
+                    Driver.getDriver().switchTo().window(parentWindow);
+                }
+            }
+
+
+        }//loop ends
+
+
+
+
+
+
     }
 
     public static Map<String, List<String>> getTwoProductsNameAndPriceBeforeCart() {
@@ -647,12 +672,14 @@ public class ReusableMethods {
 
             windowHandles = new ArrayList<>(Driver.getDriver().getWindowHandles());
 
-            if (windowHandles.size()==1){ actions.keyDown(Keys.CONTROL).moveToElement(products_List.get(i))
-                    .click().keyUp(Keys.CONTROL).build().perform();
-                windowHandles = new ArrayList<>(Driver.getDriver().getWindowHandles());}
+            if (windowHandles.size() == 1) {
+                actions.keyDown(Keys.CONTROL).moveToElement(products_List.get(i))
+                        .click().keyUp(Keys.CONTROL).build().perform();
+                windowHandles = new ArrayList<>(Driver.getDriver().getWindowHandles());
+            }
             Driver.getDriver().switchTo().window(windowHandles.get(1));
             Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
-           // waitFor(1);
+            // waitFor(1);
 
             System.out.println("Product name  -> " + cartPage.productName_Text.getText());
             productNames_list.add(cartPage.productName_Text.getText());
@@ -674,7 +701,7 @@ public class ReusableMethods {
     }
 
 
-    public static void validateTwoProductsNamePriceQuantity(Map<String,List<String>> map) {
+    public static void validateTwoProductsNamePriceQuantity(Map<String, List<String>> map) {
         CartPage cartPage = new CartPage();
         String expectedTotalPriceInCart_firstProduct = String.valueOf(Integer.parseInt(map.get("productsPrice").get(0).replaceAll("\\D", ""))
                 * Integer.parseInt(cartPage.firstProductInCart_quantity.getText()));
@@ -682,7 +709,7 @@ public class ReusableMethods {
         String expectedTotalPriceInCart_secondProduct = String.valueOf(Integer.parseInt(map.get("productsPrice").get(1).replaceAll("\\D", ""))
                 * Integer.parseInt(cartPage.secondProductInCart_quantity.getText()));
 
-       SoftAssert softAssert = new SoftAssert();
+        SoftAssert softAssert = new SoftAssert();
         // 1 ürün kontrol ,name, prices, quantity and total price
 
         softAssert.assertEquals(cartPage.firstProductInCart_name.getText().toLowerCase()
@@ -717,9 +744,9 @@ public class ReusableMethods {
         softAssert.assertAll();
     }
 
-    public static void deleteProductAndVerifyDeletedItemInCartPage(){
-        CartPage cartPage=new CartPage();
-        Random rnd= new Random();
+    public static void deleteProductAndVerifyDeletedItemInCartPage() {
+        CartPage cartPage = new CartPage();
+        Random rnd = new Random();
         int xButtonFirstCount = cartPage.xButton_List.size();
 
         List<WebElement> productDescription_List = cartPage.product_description;
@@ -740,11 +767,24 @@ public class ReusableMethods {
                         "Expected; items in cart's number should be more than X button number.");
 
         productDescription_List = cartPage.product_description;
-        for (WebElement e: productDescription_List
+        for (WebElement e : productDescription_List
         ) {
             Assert.assertFalse(e.getText().toLowerCase().contains(xButtonToBeDeleted_Text));
         }
     }
+    public static void addAllProductsToCart(){
+        CartPage cartPage = new CartPage();
+        List<WebElement> addProductsList = cartPage.addProductsButtons_List;
+        for (WebElement w : addProductsList
+        ) {
+            w.click();
+            cartPage.continueShopping_Button.click();
+        }
+    }
+
+
+
+
 
 }
 

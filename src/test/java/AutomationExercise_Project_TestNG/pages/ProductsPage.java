@@ -78,6 +78,9 @@ public class ProductsPage {
     @FindBy(id = "review-section")
     public WebElement successMsg_text;
 
+    @FindBy(xpath = "//*[@class='product-information']")
+    public WebElement productsAllInfo_Text;
+
 
 
 

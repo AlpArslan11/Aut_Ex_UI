@@ -3,8 +3,10 @@ package AutomationExercise_Project_TestNG.tests;
 import AutomationExercise_Project_TestNG.pages.ProductsPage;
 import AutomationExercise_Project_TestNG.utilities.Driver;
 import AutomationExercise_Project_TestNG.utilities.TestBaseBeforeAfterMethod;
+import jdk.jfr.Description;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -67,18 +69,31 @@ public class TC08_Products_Test_TC08_TC09_TC21____________ extends TestBaseBefor
     }
 
 
-    //Test Case 9: Search Product
-    //1. Launch browser
-    //2. Navigate to url 'http://automationexercise.com'
-    //3. Verify that home page is visible successfully
-    //4. Click on 'Products' button
-    //5. Verify user is navigated to ALL PRODUCTS page successfully
-    //6. Enter product name in search input and click search button
-    //7. Verify 'SEARCHED PRODUCTS' is visible
-    //8. Verify all the products related to search are visible
-    @Test
-    public void search_product_TC09() throws InterruptedException {
-        //Test Case-9 SEARCHING THE PRODUCTS AND VERIFIES ALL THE PRODUCTS ARE RELATED TO THE SEARCHED ITEM
+    @Description("""
+            Test Case 9: Search Product
+            1. Launch browser
+            2. Navigate to url 'http://automationexercise.com'
+            3. Verify that home page is visible successfully
+            4. Click on 'Products' button
+            5. Verify user is navigated to ALL PRODUCTS page successfully
+            6. Enter product name in search input and click search button
+            7. Verify 'SEARCHED PRODUCTS' is visible
+            8. Verify all the products related to search are visible
+            """)
+
+    @DataProvider(name = "searchItems")
+    public static Object[][] searchItems() {
+
+        List<String> items = getTestDataFromExcel("src/test/resources/test_data.xlsx", "test_data", 1);
+        Object[][] searchItems = new Object[items.size()][1];
+        for (int i = 0; i < items.size(); i++) {
+            searchItems[i][0] = items.get(i);
+        }
+        return searchItems;
+    }
+
+    @Test(dataProvider = "searchItems", description = "Test Case-9 SEARCHING THE PRODUCTS AND VERIFIES ALL THE PRODUCTS ARE RELATED TO THE SEARCHED ITEM")
+    public void search_product_TC09(String searchTerm) throws InterruptedException {
         productsPage = new ProductsPage();
 
         //Test Case 9: Search Product
@@ -96,8 +111,8 @@ public class TC08_Products_Test_TC08_TC09_TC21____________ extends TestBaseBefor
                 "Products are not listed,there are not 34 products");
 
         //6. Enter product name in search input and click search button
-        String wordToBeSearched = "dress";
-        productsPage.searchProduct_Textbox.sendKeys(wordToBeSearched);
+//        String wordToBeSearched = "dress";
+        productsPage.searchProduct_Textbox.sendKeys(searchTerm);
         productsPage.searchProduct_Button.click();
 
         //7. Verify 'SEARCHED PRODUCTS' is visible
@@ -105,7 +120,7 @@ public class TC08_Products_Test_TC08_TC09_TC21____________ extends TestBaseBefor
                 "SEARCHED PRODUCTS yazısı goruntulenmedi");
 
         //8. Verify all the products related to search are visible
-        verifyAllProductsRelatedToSearch(wordToBeSearched);
+        verifyAllProductsRelatedToSearch(searchTerm);
     }
 
 
@@ -120,6 +135,7 @@ public class TC08_Products_Test_TC08_TC09_TC21____________ extends TestBaseBefor
     //8. Click 'Submit' button
     //9. Verify success message 'Thank you for your review.'
     List<WebElement> viewProducts;
+
     @Test
     public void addReviewOnProduct_TC21_Test() throws InterruptedException {
         //Test Case-21 REVIEWING ON A PRODUCT
@@ -131,7 +147,7 @@ public class TC08_Products_Test_TC08_TC09_TC21____________ extends TestBaseBefor
         //2. Navigate to url 'http://automationexercise.com'
         //3. Click on 'Products' button
         productsPage.products_button.click();
-        handleGoogleVignette(()->productsPage.products_button.click());
+        handleGoogleVignette(() -> productsPage.products_button.click());
 
         //4. Verify user is navigated to ALL PRODUCTS page successfully
         Assert.assertTrue(productsPage.allProducts_text.isDisplayed(),

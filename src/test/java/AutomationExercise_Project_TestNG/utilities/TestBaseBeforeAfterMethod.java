@@ -5,6 +5,8 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+import static AutomationExercise_Project_TestNG.utilities.ReusableMethods.handleGoogleVignette;
+
 public abstract class TestBaseBeforeAfterMethod {
 
     HomePage homepage;
@@ -16,6 +18,7 @@ public abstract class TestBaseBeforeAfterMethod {
         //1. Launch browser
         //2. Navigate to url 'http://automationexercise.com'
         Driver.getDriver().get("http://automationexercise.com");
+        handleGoogleVignette(()-> Driver.getDriver().get("http://automationexercise.com"));
         //3. Verify that home page is visible successfully
         Assert.assertEquals(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/");
         Assert.assertTrue(homepage.adsOfHomepage.isDisplayed(),"Homepage reklamları yok");
