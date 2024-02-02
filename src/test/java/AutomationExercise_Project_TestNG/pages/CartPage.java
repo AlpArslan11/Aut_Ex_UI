@@ -139,12 +139,22 @@ public class CartPage {
     public List<WebElement> productNamesInRecommendedItems_List;
 //css ile
     //  .recommended_items p
+    // //div[@class='recommended_items']//*[@class='productinfo text-center']
+
+//    @FindBy (css = ".recommended_items p")
+//    public List<WebElement> productNamesInRecommendedItems_List;
+
+//    @FindBy (xpath = "//div[@class='recommended_items']//*[@class='productinfo text-center']")
+//    public List<WebElement> productNamesInRecommendedItems_List;
 
     @FindBy (xpath = "//*[@class='cart_description']//a")
     public List<WebElement> productNamesInCart_List;
 
     @FindBy (xpath = "//div[@class='productinfo text-center']/p")
     public List<WebElement> productsNameInSearchPage_List;
+
+    @FindBy(xpath = "//a[@class='right recommended-item-control']//*[@class='fa fa-angle-right']")
+    public WebElement rightArrowInRecommendedItems;
 
 
 }

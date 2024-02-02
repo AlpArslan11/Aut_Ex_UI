@@ -5,21 +5,17 @@ import AutomationExercise_Project_TestNG.utilities.ConfigReader;
 import AutomationExercise_Project_TestNG.utilities.Driver;
 import AutomationExercise_Project_TestNG.utilities.TestBaseBeforeAfterMethod;
 import jdk.jfr.Description;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 
-import java.time.Duration;
 import java.util.*;
 
 import static AutomationExercise_Project_TestNG.utilities.ReusableMethods.*;
 
-public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfterMethod {
+public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22______ extends TestBaseBeforeAfterMethod {
     CartPage cartPage;
     Actions actions;
 
@@ -84,9 +80,10 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
     }
 
 
+
+
     Random rnd;
     List<WebElement> viewProductsButtons_list;
-
     @Description("""
             Test Case 13: Verify Product quantity in Cart
             1. Launch browser
@@ -156,7 +153,6 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
         //1. Launch browser
         //2. Navigate to url 'http://automationexercise.com'
         //3. Verify that home page is visible successfully
-
         //4. Add products to cart
         cartPage.addToCart_firstProduct_Button.click();
         cartPage.continueShopping_Button.click();
@@ -194,7 +190,6 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
 // dataProvider (parallel =  true)
     @DataProvider(name = "searchItems", parallel = false)
     public static Object[][] searchItems() {
-
         List<String> items = getTestDataFromExcel("src/test/resources/test_data.xlsx", "test_data", 1);
         Object[][] searchItems = new Object[items.size()][1];
         for (int i = 0; i < items.size(); i++) {
@@ -203,16 +198,14 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
         return searchItems;
     }
 
-//@Factory
+    //@Factory
     @Test(dataProvider = "searchItems", description = "Test Case-20 SEARCH PRODUCTS AND VERIFIES CART")
     public void searchProductsAndVerifyCartAfterLogin_Test_TC20(String searchTerm) throws InterruptedException {
-
         cartPage = new CartPage();
         rnd = new Random();
         //Test Case 20: Search Products and Verify Cart After Login
         //1. Launch browser
         //2. Navigate to url 'http://automationexercise.com'
-
         //3. Click on 'Products' button
         cartPage.products_Button.click();
         handleGoogleVignette(() -> cartPage.products_Button.click());
@@ -230,7 +223,6 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
                 .contains("searched products"), "SEARCHED PRODUCTS txt is not visible");
 
         //7. Verify all the products related to search are visible
-
         List<String> productAddedToCart_NamesList = new ArrayList<>();
         for (WebElement e : cartPage.productsNameInSearchPage_List
         ) {
@@ -238,40 +230,32 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
         }
         verifyAllProductsRelatedToSearch(searchTerm);
 
-
         //8. Add those products to cart ---------------------------------------------------------------------------------------
         addAllProductsToCart();
 
         //9. Click 'Cart' button and verify that products are visible in cart
         cartPage.cart_Button.click();
         List<WebElement> productsDescriptionInCartPageList = cartPage.product_description;
-
-
         int checkCount = 0;
         for (String str : productAddedToCart_NamesList) {
             str = str.toLowerCase().replaceAll("\\W", "");
             for (WebElement w : productsDescriptionInCartPageList) {
                 if (w.getText().toLowerCase().replaceAll("\\W", "").contains(str)) checkCount++;
             }
-
         }
         Assert.assertEquals(productAddedToCart_NamesList.size(), checkCount,
                 "Some elements or an element is not present in the cart page");
 
         //10. Click 'Signup / Login' button and submit login details ---------------------------------------------------------------------------------------
         cartPage.signUpLoginButton.click();
-        login_fromLoginPage(ConfigReader.getProperty("aut_Ex_MailAddress"),ConfigReader.getProperty("aut_Ex_PassWord"));
-
-
+        login_fromLoginPage(ConfigReader.getProperty("aut_Ex_MailAddress"), ConfigReader.getProperty("aut_Ex_PassWord"));
         Assert.assertTrue(cartPage.logout_button.isDisplayed(), "can't verify that user logged in ");
-
 
         //11. Again, go to Cart page
         cartPage.cart_Button.click();
 
         //12. Verify that those products are visible in cart after login as well
         productsDescriptionInCartPageList = cartPage.product_description;
-
         checkCount = 0;
         for (String str : productAddedToCart_NamesList) {
             str = str.toLowerCase().replaceAll("\\W", "");
@@ -279,92 +263,70 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
                 if (w.getText().toLowerCase().replaceAll("\\W", "").contains(str)) checkCount++;
             }
         }
-
         Assert.assertEquals(productAddedToCart_NamesList.size(), checkCount, "Some elements or an element is not present in the cart page");
-
         List<WebElement> xButtonList = cartPage.xButton_List;
         while (xButtonList.size() > 0) {
-
             xButtonList.get(xButtonList.size() - 1).click();
             waitFor(1);
             xButtonList = cartPage.xButton_List;
         }
-
         logoutUser();
-
-
     }
 
-
+    @Description(""" 
+            Test Case 22: Add to cart from Recommended items
+            1. Launch browser
+            2. Navigate to url 'http://automationexercise.com'
+            3. Scroll to bottom of page
+            4. Verify 'RECOMMENDED ITEMS' are visible
+            5. Click on 'Add To Cart' on Recommended product
+            6. Click on 'View Cart' button
+            7. Verify that product is displayed in cart page
+            """)
     int rndIndex;
+    List<WebElement> recommendedProducts_AddToCartButtonList;
+    List<String> productNamesInRecommendedItems;
+    List<String> productNamesListInCart;
 
     @Test
     public void addToCartFromRecommendedItemsTC22_Test() {
-
+        //1. Launch browser
+        //2. Navigate to url 'http://automationexercise.com'
+        //3. Scroll to bottom of page
         cartPage = new CartPage();
         rnd = new Random();
-        //Test Case 22: Add to cart from Recommended items
-        //1. Launch browser
-        //2. Navigate to url 'http://automationexercise.com'
-        //3. Scroll to bottom of page
-        //4. Verify 'RECOMMENDED ITEMS' are visible
-        //5. Click on 'Add To Cart' on Recommended product
-        //6. Click on 'View Cart' button
-        //7. Verify that product is displayed in cart page
-
-
-        //Test Case 22: Add to cart from Recommended items
-        //1. Launch browser
-        //2. Navigate to url 'http://automationexercise.com'
-
-        //3. Scroll to bottom of page
         scrollToTheBottomWithActions();
 
         //4. Verify 'RECOMMENDED ITEMS' are visible
         scrollIntoViewByJavaScript(cartPage.recommendedItems_Text);
-
-        List<WebElement> recommendedProducts_AddToCartButtonList = cartPage.addToCart_inRecommendedItems_Button;
-        List<WebElement> productNamesInRecommendedItems = cartPage.productNamesInRecommendedItems_List;
-        System.out.println("RECOMMENDED ITEMS DAKİ URUNLER-----------");
-        productNamesInRecommendedItems.forEach(t -> System.out.println(t.getText()));
-
+        Assert.assertTrue(cartPage.recommendedItems_Text.isDisplayed(), "Title -RECOMMENDED ITEMS- is not visible ");
+        recommendedProducts_AddToCartButtonList = cartPage.addToCart_inRecommendedItems_Button;
+        productNamesInRecommendedItems = new ArrayList<>();
+        cartPage.productNamesInRecommendedItems_List.forEach(t -> productNamesInRecommendedItems.add(t.getText()));
+        Assert.assertEquals(recommendedProducts_AddToCartButtonList.size(), 6,
+                "products in RECOMMENDED ITEMS count are not verified");
         Assert.assertEquals(productNamesInRecommendedItems.size(), 6,
                 "products in RECOMMENDED ITEMS are not verified");
 
-
         //5. Click on 'Add To Cart' on Recommended product
-        //  rndIndex = rnd.nextInt(0, recommendedProducts_AddToCartButtonList.size());
-        rndIndex = 9;
-        String addedProductName = "";
-        try {
-            recommendedProducts_AddToCartButtonList.get(rndIndex).click();
-        } catch (Exception e) {
-            for (int i = 0; i < recommendedProducts_AddToCartButtonList.size(); i++) {
+        rndIndex = rnd.nextInt(0, recommendedProducts_AddToCartButtonList.size());
+        String addedProductName = productNamesInRecommendedItems.get(rndIndex);
+        // Some Product names list in recommended items return empty.that's why created if and loop
+        if (addedProductName.length()<=1){
+            for (int i = 0; i <productNamesInRecommendedItems.size() ; i++) {
                 rndIndex = rnd.nextInt(0, recommendedProducts_AddToCartButtonList.size());
-                try {
-                    addedProductName = recommendedProducts_AddToCartButtonList.get(rndIndex).getText();
-                    recommendedProducts_AddToCartButtonList.get(rndIndex).click();
-                } catch (Exception b) {
-                }
+                addedProductName = productNamesInRecommendedItems.get(rndIndex);
+                if (addedProductName.length()>1)break;
             }
         }
-
-        System.out.println("carta eklenen product " + addedProductName);
-
+        recommendedProducts_AddToCartButtonList.get(rndIndex).click();
         //6. Click on 'View Cart' button
-
         cartPage.viewCart_Button.click();
-        // clickByJavaScript(cartPage.viewCart_Button);
-
 
         //7. Verify that product is displayed in cart page
-
-        List<WebElement> productNamesListInCart = cartPage.productNamesInCart_List;
-
-        System.out.println("CART   TAKI ITEMLER-------------");
-        productNamesListInCart.forEach(t -> System.out.println(t.getText()));
+        productNamesListInCart = new ArrayList<>();
+        cartPage.productNamesInCart_List.forEach(t -> productNamesListInCart.add(t.getText()));
         Assert.assertTrue(productNamesListInCart.size() >= 1, "Added product is not visible in cart page");
+        Assert.assertTrue(productNamesListInCart.contains(addedProductName),"Product names do not contain added product to cart");
     }
-
-
 }
