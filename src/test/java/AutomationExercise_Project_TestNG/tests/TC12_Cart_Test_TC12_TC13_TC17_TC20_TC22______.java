@@ -199,7 +199,7 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22______ extends TestBaseBefor
     }
 
     //@Factory
-    @Test(dataProvider = "searchItems", description = "Test Case-20 SEARCH PRODUCTS AND VERIFIES CART")
+    @Test(dataProvider = "searchItems", description = "Test Case 20: Search Products and Verify Cart After Login")
     public void searchProductsAndVerifyCartAfterLogin_Test_TC20(String searchTerm) throws InterruptedException {
         cartPage = new CartPage();
         rnd = new Random();
@@ -288,7 +288,7 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22______ extends TestBaseBefor
     List<String> productNamesInRecommendedItems;
     List<String> productNamesListInCart;
 
-    @Test
+    @Test(description = "Test Case 22: Add to cart from Recommended items")
     public void addToCartFromRecommendedItemsTC22_Test() {
         //1. Launch browser
         //2. Navigate to url 'http://automationexercise.com'
