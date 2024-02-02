@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -191,8 +192,8 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
             11. Again, go to Cart page
             12. Verify that those products are visible in cart after login as well
             """)
-
-    @DataProvider(name = "searchItems")
+// dataProvider (parallel =  true)
+    @DataProvider(name = "searchItems", parallel = true)
     public static Object[][] searchItems() {
 
         List<String> items = getTestDataFromExcel("src/test/resources/test_data.xlsx", "test_data", 1);
@@ -203,7 +204,7 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
         return searchItems;
     }
 
-
+//@Factory
     @Test(dataProvider = "searchItems", description = "Test Case-20 SEARCH PRODUCTS AND VERIFIES CART")
     public void searchProductsAndVerifyCartAfterLogin_Test_TC20(String searchTerm) throws InterruptedException {
 
