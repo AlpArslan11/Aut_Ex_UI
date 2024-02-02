@@ -488,9 +488,10 @@ public class ReusableMethods {
         RegistrationPage registrationPage = new RegistrationPage();
         registrationPage.deleteAcc_button.click();
 
-        if (Driver.getDriver().getCurrentUrl().contains("google_vignette")) {
-            Driver.getDriver().navigate().refresh();
-        }
+//        if (Driver.getDriver().getCurrentUrl().contains("google_vignette")) {
+//            Driver.getDriver().navigate().refresh();
+//        }
+        handleGoogleVignette(() -> Driver.getDriver().navigate().refresh());
         String actualText = registrationPage.accDeleted_text.getText();
         String expectedText = "ACCOUNT DELETED";
         Assert.assertTrue(actualText.contains(expectedText), "ACCOUNT DELETED! - text is not visible");
@@ -632,7 +633,7 @@ public class ReusableMethods {
 
             windowsHandles = new ArrayList<>(Driver.getDriver().getWindowHandles());
             if (windowsHandles.size() > 1) {
-                for (int j = 1; j<= windowsHandles.size(); j++) {
+                for (int j = 1; j <= windowsHandles.size(); j++) {
                     Driver.getDriver().switchTo().window(windowsHandles.get(j));
                     Driver.closeDriver();
                     Driver.getDriver().switchTo().window(parentWindow);
@@ -641,10 +642,6 @@ public class ReusableMethods {
 
 
         }//loop ends
-
-
-
-
 
 
     }
@@ -772,7 +769,8 @@ public class ReusableMethods {
             Assert.assertFalse(e.getText().toLowerCase().contains(xButtonToBeDeleted_Text));
         }
     }
-    public static void addAllProductsToCart(){
+
+    public static void addAllProductsToCart() {
         CartPage cartPage = new CartPage();
         List<WebElement> addProductsList = cartPage.addProductsButtons_List;
         for (WebElement w : addProductsList
@@ -781,6 +779,55 @@ public class ReusableMethods {
             cartPage.continueShopping_Button.click();
         }
     }
+
+
+    public static void verifyLoggedInAsUsername(String userName) {
+        LoginPage loginPage = new LoginPage();
+        System.out.println(loginPage.loggedIn_Text.getText());
+        Assert.assertTrue(loginPage.loggedIn_Text.isDisplayed(), "Logged in as Username yazısı görüntülenmedi");
+        Assert.assertTrue(loginPage.loggedIn_Text.getText().contains(userName)
+                , "' Logged in as username' text is not displayed or doesnt contain the registered name");
+    }
+
+
+    public static void enterPaymentDetails() {
+        CheckoutPage checkoutPage = new CheckoutPage();
+        Faker faker = new Faker();
+        checkoutPage.nameOnCard_TextBox.sendKeys(randomName(5));
+        checkoutPage.cardNumber_TextBox.sendKeys(faker.business().creditCardNumber());
+        checkoutPage.cvc_TextBox.sendKeys(faker.number().digits(3));
+        checkoutPage.expiration_TextBox.sendKeys(dateMonth());
+        checkoutPage.expirationYear_TextBox.sendKeys(dateYear());
+    }
+
+    public static void addSomeProductsToCart(int productsCount) {
+        ProductsPage productsPage = new ProductsPage();
+        Random rnd = new Random();
+        List<WebElement> allAddToCartButtons_list = productsPage.allAddToCartButton_inProductsPage;
+
+        for (int i = 0; i <= productsCount; i++) {
+            try {
+                allAddToCartButtons_list.get(rnd.nextInt(0, allAddToCartButtons_list.size())).click();
+                productsPage.continueShopping_Button.click();
+            } catch (Exception e) {
+                allAddToCartButtons_list.get(rnd.nextInt(0, allAddToCartButtons_list.size())).click();
+                productsPage.continueShopping_Button.click();
+            }
+        }
+    }
+
+    public static void clickCartButton(){
+        CartPage cartPage = new CartPage();
+        cartPage.cart_Button.click();
+    }
+
+
+
+
+
+
+
+
 
 
 

@@ -1,6 +1,8 @@
 package AutomationExercise_Project_TestNG.tests;
 
 import AutomationExercise_Project_TestNG.pages.CheckoutPage;
+import AutomationExercise_Project_TestNG.pages.LoginPage;
+import AutomationExercise_Project_TestNG.pages.ProductsPage;
 import AutomationExercise_Project_TestNG.utilities.Driver;
 import AutomationExercise_Project_TestNG.utilities.TestBaseBeforeAfterMethod;
 import com.github.javafaker.Faker;
@@ -56,31 +58,23 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
             17. Click 'Pay and Confirm Order' button
             18. Verify success message 'Your order has been placed successfully!'
             19. Click 'Delete Account' button
-            20. Verify 'ACCOUNT DELETED!' and click 'Continue' button
-            """)
-
+            20. Verify 'ACCOUNT DELETED!' and click 'Continue' button """)
     @Test(priority = 0, description = "Test Case 14: Place Order: Register while Checkout")
-    public void RegisterWhileCheckout_Test_TC14() throws InterruptedException {
+    public void RegisterWhileCheckout_Test_TC14() {
 
         checkoutPage = new CheckoutPage();
         actions = new Actions(Driver.getDriver());
         rnd = new Random();
         faker = new Faker();
-
-
         //1. Launch browser
         //2. Navigate to url 'http://automationexercise.com'
         //3. Verify that home page is visible successfully
 
         //4. Add products to cart
-        checkoutPage.firstProductAddToCart_Button.click();
-        checkoutPage.continueShopping_Button.click();
-
-        checkoutPage.secondProductAddToCart_Button.click();
-        checkoutPage.continueShopping_Button.click();
+        addSomeProductsToCart(2);
 
         //5. Click 'Cart' button
-        checkoutPage.cart_Button.click();
+        clickCartButton();
 
         //6. Verify that cart page is displayed
         Assert.assertTrue(checkoutPage.shoppingCart_text.getText().toLowerCase().contains("shopping cart"), "Cart Page isnt displayed");
@@ -90,75 +84,11 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
 
         //8. Click 'Register / Login' button
         checkoutPage.registerLoginOnPopUp_Button.click();
-
-        //9. Fill all details in Signup and create account
-        name = randomName(5);
-        email = randomEmail(5);
-        System.out.println("name --> " + name);
-        System.out.println("mail --> " + email);
-        checkoutPage.name_TextBox.sendKeys(name);
-        checkoutPage.emailAddress_TextBox.sendKeys(email);
-        checkoutPage.signUp_Button.click();
-        checkoutPage.genderMr_RadioButton.click();
-
-        String password = randomPassWord(5);
-        actions = new Actions(Driver.getDriver());
-        actions.sendKeys(Keys.TAB)
-                .sendKeys(Keys.TAB)
-                .sendKeys(password).build().perform();
-
-        select = new Select(checkoutPage.day_Ddm);
-        select.selectByValue(String.valueOf(rnd.nextInt(1, 32)));
-
-        select = new Select(checkoutPage.months_Ddm);
-        select.selectByValue(String.valueOf(rnd.nextInt(1, 13)));
-
-        select = new Select(checkoutPage.years_Ddm);
-        select.selectByValue(String.valueOf(rnd.nextInt(1900, 2021)));
-
-        checkoutPage.newsletter_RadioButton.click();
-        checkoutPage.specialOffer_RadioButton.click();
-
-        actions.sendKeys(Keys.TAB)
-                .sendKeys(name)
-                .sendKeys(Keys.TAB, random(7, true, false))
-                .sendKeys(Keys.TAB, random(4, true, false) + " " + random(3, true, false))
-                .sendKeys(Keys.TAB, faker.address().fullAddress())
-                .sendKeys(Keys.TAB, faker.address().city(), Keys.TAB)
-                .build().perform();
-
-        select = new Select(checkoutPage.country_Ddm);
-        select.selectByIndex(rnd.nextInt(0, 7));
-
-        actions.sendKeys(Keys.TAB)
-                .sendKeys(faker.address().state())
-                .sendKeys(Keys.TAB).sendKeys(faker.address().city())
-                .sendKeys(Keys.TAB).sendKeys(faker.address().zipCode())
-                .sendKeys(Keys.TAB).sendKeys(faker.phoneNumber().cellPhone())
-                .build().perform();
-
-        checkoutPage.createAccount_Button.click();
-
-        //10. Verify 'ACCOUNT CREATED!' and click 'Continue' button
-        String actualText = checkoutPage.accountCreated_text.getText().toLowerCase();
-        String expectedText = "ACCOUNT CREATED";
-        System.out.println("-----Account Created------");
-        Assert.assertTrue(actualText.contains(expectedText.toLowerCase()), "ACCOUNT CREATED yazısı goruntulenmedi");
-
-        checkoutPage.continue_button.click();
-
-        if (Driver.getDriver().getCurrentUrl().contains("google_vignette")) {
-            Driver.getDriver().navigate().refresh();
-            checkoutPage.continue_button.click();
-        }
-
+        Map<String, String> registerInfo = register_fromLoginPage();
+        handleGoogleVignette(() -> Driver.getDriver().navigate().refresh());
 
         //11. Verify ' Logged in as username' at top
-
-        System.out.println(checkoutPage.loggedIn_Text.getText());
-        Assert.assertTrue(checkoutPage.loggedIn_Text.isDisplayed(), "Logged in as Username yazısı görüntülenmedi");
-        Assert.assertTrue(checkoutPage.loggedIn_Text.getText().contains(name)
-                , "' Logged in as username' text is not displayed or doesnt contain the registered name");
+        verifyLoggedInAsUsername(registerInfo.get("userName"));
 
         //12.Click 'Cart' button
         checkoutPage.cart_Button.click();
@@ -171,20 +101,11 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
 
         //15. Enter description in comment text area and click 'Place Order'
         checkoutPage.comment_TextBox.sendKeys(randomParagraph(50));
-
         checkoutPage.placeOrder_Button.click();
-        if (Driver.getDriver().getCurrentUrl().contains("google_vignette")) {
-            Driver.getDriver().navigate().refresh();
-            checkoutPage.comment_TextBox.sendKeys(randomParagraph(50));
-            checkoutPage.placeOrder_Button.click();
-        }
+        handleGoogleVignette(() -> checkoutPage.placeOrder_Button.click());
 
         //16. Enter payment details: Name on Card, Card Number, CVC, Expiration date
-        checkoutPage.nameOnCard_TextBox.sendKeys(name);
-        checkoutPage.cardNumber_TextBox.sendKeys(faker.business().creditCardNumber());
-        checkoutPage.cvc_TextBox.sendKeys(faker.number().digits(3));
-        checkoutPage.expiration_TextBox.sendKeys(dateMonth());
-        checkoutPage.expirationYear_TextBox.sendKeys(dateYear());
+        enterPaymentDetails();
 
         //17. Click 'Pay and Confirm Order' button
         checkoutPage.payAndConfirmOrder_Button.click();
@@ -193,28 +114,11 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
         Assert.assertTrue(checkoutPage.successMsg_Text.isDisplayed()
                 , "Congratulations! Your order has been confirmed! texti goruntulenmiyor");
 
-        Thread.sleep(1000);
-        if (Driver.getDriver().getCurrentUrl().contains("google_vignette")) {
-            Driver.getDriver().navigate().refresh();
-        }
+        waitFor(1);
+        handleGoogleVignette(() -> Driver.getDriver().navigate().refresh());
 
         //19. Click 'Delete Account' button
-        checkoutPage.deleteAccount_Button.click();
-
-        //20. Verify 'ACCOUNT DELETED!' and click 'Continue' button
-        actualText = checkoutPage.accountDeleted_text.getText();
-        System.out.println(actualText);
-        expectedText = "ACCOUNT DELETED";
-        Assert.assertTrue(actualText.contains(expectedText), "Delete Account yazısı goruntulenmedi");
-
-        checkoutPage.continueafterDeleted_Button.click();
-
-        if (Driver.getDriver().getCurrentUrl().contains("google_vignette")) {
-            Driver.getDriver().navigate().refresh();
-            checkoutPage.continueafterDeleted_Button.click();
-        }
-
-
+        deleteUserAndVerifyAccDeleted();
     }
 
     @Description("""
@@ -327,7 +231,8 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
         checkoutPage.continueShopping_Button.click();
 
         //9. Click 'Cart' button
-        checkoutPage.cart_Button.click();
+
+        clickCartButton();
 
         //10. Verify that cart page is displayed
         Assert.assertTrue(checkoutPage.shoppingCart_text.getText().toLowerCase().contains("shopping cart"), "Cart Page isnt displayed");
@@ -479,7 +384,7 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
         checkoutPage.continueShopping_Button.click();
 
         //8. Click 'Cart' button
-        checkoutPage.cart_Button.click();
+        clickCartButton();
 
         //9. Verify that cart page is displayed
         Assert.assertTrue(checkoutPage.shoppingCart_text.getText().toLowerCase().contains("shopping cart"), "Cart Page isnt displayed");
@@ -567,6 +472,7 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
 
         //8. Add products to cart
         //9. Click 'Cart' button
+        clickCartButton();
         List<WebElement> addToCartButtonList = checkoutPage.addToCart_ButtonList;
         rndNumber = new Random();
         for (int i = 0; i < 3; i++) {
@@ -655,6 +561,7 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
 
         //4. Add products to cart
         //5. Click 'Cart' button
+        clickCartButton();
         List<WebElement> addToCartButtonList = checkoutPage.addToCart_ButtonList;
         rndNumber = new Random();
         for (int i = 0; i < 3; i++) {

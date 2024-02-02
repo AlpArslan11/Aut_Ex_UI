@@ -13,6 +13,9 @@ public class CheckoutPage {
     }
 
 
+
+
+
     @FindBy(xpath = "(//a[@data-product-id='1'])[1]")
     public WebElement firstProductAddToCart_Button;
 

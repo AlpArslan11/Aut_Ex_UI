@@ -81,6 +81,15 @@ public class ProductsPage {
     @FindBy(xpath = "//*[@class='product-information']")
     public WebElement productsAllInfo_Text;
 
+    @FindBy(xpath = "//*[@class='col-sm-4']//*[text()='Add to cart']")
+    public List<WebElement> allAddToCartButton_inProductsPage;
+
+    @FindBy(xpath="//button[contains(.,'Continue Shopping')]")
+    public WebElement continueShopping_Button;
+
+
+    @FindBy(xpath="//div[@class='features_items']//*[@class='productinfo text-center']")
+    public WebElement slideOnTheProducts;
 
 
 

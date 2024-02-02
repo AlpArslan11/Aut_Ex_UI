@@ -41,6 +41,7 @@ public class TC02_Login_Test_TC02_TC03_TC04After__________ extends TestBaseBefor
         loginpage.signUp_button.click();
 
         //5. Verify 'Login to your account' is visible
+
         //6. Enter correct email address and password
         //7. Click 'login' button
         login_fromLoginPage(registerInfo.get("email"), registerInfo.get("password"));
@@ -60,7 +61,7 @@ public class TC02_Login_Test_TC02_TC03_TC04After__________ extends TestBaseBefor
     //7. Click 'login' button
     //8. Verify error 'Your email or password is incorrect!' is visible
 
-    @Test(priority = 2, dependsOnMethods = "registerAndLogout")
+    @Test(priority = 2, dependsOnMethods = "registerAndLogout", description = "Test Case 3: Login User with incorrect email and password")
     public void negative_loginTest_TC03() throws InterruptedException {
         // Test Case-3 LOGIN WITH INVALID CREDENTIALS
         //Test Case 3: Login User with incorrect email and password
