@@ -176,8 +176,7 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
         deleteProductAndVerifyDeletedItemInCartPage();
     }
 
-    @Description("""
-                    
+    @Description(""" 
             Test Case 20: Search Products and Verify Cart After Login
             1. Launch browser
             2. Navigate to url 'http://automationexercise.com'
@@ -193,7 +192,7 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
             12. Verify that those products are visible in cart after login as well
             """)
 // dataProvider (parallel =  true)
-    @DataProvider(name = "searchItems", parallel = true)
+    @DataProvider(name = "searchItems", parallel = false)
     public static Object[][] searchItems() {
 
         List<String> items = getTestDataFromExcel("src/test/resources/test_data.xlsx", "test_data", 1);
@@ -239,70 +238,9 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
         }
         verifyAllProductsRelatedToSearch(searchTerm);
 
-        //----
-//        actions = new Actions(Driver.getDriver());
-//        List<WebElement> products_list = cartPage.viewProduct_Buttons;
-//        String parentWindow = Driver.getDriver().getWindowHandle();
-//        List<String> windowsHandles;
-//        List<String> productAddedToCart_NamesList = new ArrayList<>();
-//        //   System.out.println("asd");
-//        for (int i = 0; i < products_list.size(); i++) {
-//
-//            actions.moveToElement(products_list.get(i))
-//                    .keyDown(Keys.CONTROL)
-//                    .click().keyUp(Keys.CONTROL).build().perform();
-//            if (Driver.getDriver().getCurrentUrl().contains("google_vignette")) {
-//                Driver.getDriver().navigate().refresh();
-//                actions.moveToElement(products_list.get(i))
-//                        .keyDown(Keys.CONTROL)
-//                        .click().keyUp(Keys.CONTROL).build().perform();
-//            }
-//
-//            waitFor(1);
-//            windowsHandles = new ArrayList<>(Driver.getDriver().getWindowHandles());
-//
-//
-//            Driver.getDriver().switchTo().window(windowsHandles.get(1));
-//            Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
-//            productAddedToCart_NamesList.add(cartPage.productName_Text.getText());
-////            System.out.println("Product name -->>>>>>> " + cartPage.productName_Text.getText());
-////            System.out.println("category bilgisi -->>>>>>> " + cartPage.categoryOfTheProduct.getText());
-//            //waitFor(2);
-//            Assert.assertTrue(cartPage.productsAllInfo_Text.getText().toLowerCase().replaceAll("\\W", "")
-//                    .contains(searchTerm.toLowerCase().replaceAll("\\W", "")));
-//            //     System.out.println("product " + (i + 1) + " checked");
-//            // System.out.println("products all ınfo--> \n " + cartPage.productsAllInfo_Text.getText());
-//            Driver.getDriver().close();
-//            Driver.getDriver().switchTo().window(parentWindow);
-//
-//            windowsHandles = new ArrayList<>(Driver.getDriver().getWindowHandles());
-//            if (windowsHandles.size() > 1) {
-//                Driver.getDriver().switchTo().window(windowsHandles.get(1));
-//                Driver.getDriver().close();
-//                Driver.getDriver().switchTo().window(parentWindow);
-//            }
-//        } // loop ends
-
-//        windowsHandles = new ArrayList<>(Driver.getDriver().getWindowHandles());
-//        if (windowsHandles.size() > 1) {
-//            for (int i = 1; i <= windowsHandles.size(); i++) {
-//                Driver.getDriver().switchTo().window(windowsHandles.get(1));
-//                Driver.closeDriver();
-//                Driver.getDriver().switchTo().window(parentWindow);
-//            }
-//        }
 
         //8. Add those products to cart ---------------------------------------------------------------------------------------
         addAllProductsToCart();
-
-
-//        List<WebElement> addProductsList = cartPage.addProductsButtons_List;
-//        for (WebElement w : addProductsList
-//        ) {
-//            w.click();
-//            cartPage.continueShopping_Button.click();
-//        }
-//        System.out.println(productAddedToCart_NamesList.size() + "  products are added to cart");
 
         //9. Click 'Cart' button and verify that products are visible in cart
         cartPage.cart_Button.click();
@@ -324,10 +262,7 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
         cartPage.signUpLoginButton.click();
         login_fromLoginPage(ConfigReader.getProperty("aut_Ex_MailAddress"),ConfigReader.getProperty("aut_Ex_PassWord"));
 
-//        cartPage.emailAdress_LoginPage_TextBox.sendKeys(ConfigReader.getProperty("aut_Ex_MailAddress"));
-//        cartPage.password_LoginPage_TextBox.sendKeys(ConfigReader.getProperty("aut_Ex_PassWord"));
-//        cartPage.login_button.click();
-        //       System.out.println("Logged in the site");
+
         Assert.assertTrue(cartPage.logout_button.isDisplayed(), "can't verify that user logged in ");
 
 
@@ -353,7 +288,6 @@ public class TC12_Cart_Test_TC12_TC13_TC17_TC20_TC22 extends TestBaseBeforeAfter
             xButtonList.get(xButtonList.size() - 1).click();
             waitFor(1);
             xButtonList = cartPage.xButton_List;
-            // System.out.println("xButtonList.size()"+ cartPage.xButton_List.size());
         }
 
         logoutUser();
