@@ -13,7 +13,10 @@ public class HomePage {
     @FindBy(xpath = "//*[@id='slider-carousel']")
     public WebElement adsOfHomepage;
 
+    @FindBy(xpath="//li[3]/a[@href='/view_cart']")
+    public WebElement cart_Button;
 
-
+    @FindBy(xpath= "//*[@class='fa fa-lock']")
+    public WebElement signUpLogin_Button;
 
 }

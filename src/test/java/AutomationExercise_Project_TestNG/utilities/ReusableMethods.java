@@ -804,32 +804,35 @@ public class ReusableMethods {
         ProductsPage productsPage = new ProductsPage();
         Random rnd = new Random();
         List<WebElement> allAddToCartButtons_list = productsPage.allAddToCartButton_inProductsPage;
+        System.out.println("productsPage.allAddToCartButton_inProductsPage = " + productsPage.allAddToCartButton_inProductsPage.size());
 
-        for (int i = 0; i <= productsCount; i++) {
-            try {
-                allAddToCartButtons_list.get(rnd.nextInt(0, allAddToCartButtons_list.size())).click();
-                productsPage.continueShopping_Button.click();
-            } catch (Exception e) {
-                allAddToCartButtons_list.get(rnd.nextInt(0, allAddToCartButtons_list.size())).click();
-                productsPage.continueShopping_Button.click();
+            int index;
+        for (int i = 0; i < productsCount; i++) {
+            index = rnd.nextInt(0, allAddToCartButtons_list.size()-1);
+            System.out.println("ilk index = " + index);
+            if (index % 2 ==1){
+               index++;
+                System.out.println("index +1 = " + index);
             }
+            System.out.println("index try oncesi = " + index);
+                allAddToCartButtons_list.get(index).click();
+                productsPage.continueShopping_Button.click();
+                System.out.println("index try içinde tiklandi");
+            System.out.println("__________________");
+
         }
     }
 
-    public static void clickCartButton(){
-        CartPage cartPage = new CartPage();
-        cartPage.cart_Button.click();
+    public static void clickCartButton() {
+        HomePage homePage= new HomePage();
+        homePage.cart_Button.click();
     }
 
 
-
-
-
-
-
-
-
-
+    public static void clickSignUpLoginButton(){
+        HomePage homePage = new HomePage();
+        homePage.signUpLogin_Button.click();
+    }
 
 
 

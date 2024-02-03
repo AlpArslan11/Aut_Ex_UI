@@ -1,6 +1,7 @@
 package AutomationExercise_Project_TestNG.tests;
 
 import AutomationExercise_Project_TestNG.pages.CheckoutPage;
+import AutomationExercise_Project_TestNG.pages.HomePage;
 import AutomationExercise_Project_TestNG.pages.LoginPage;
 import AutomationExercise_Project_TestNG.pages.ProductsPage;
 import AutomationExercise_Project_TestNG.utilities.Driver;
@@ -50,7 +51,7 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
             9. Fill all details in Signup and create account
             10. Verify 'ACCOUNT CREATED!' and click 'Continue' button
             11. Verify ' Logged in as username' at top
-            12.Click 'Cart' button
+            12. Click 'Cart' button
             13. Click 'Proceed To Checkout' button
             14. Verify Address Details and Review Your Order
             15. Enter description in comment text area and click 'Place Order'
@@ -58,7 +59,7 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
             17. Click 'Pay and Confirm Order' button
             18. Verify success message 'Your order has been placed successfully!'
             19. Click 'Delete Account' button
-            20. Verify 'ACCOUNT DELETED!' and click 'Continue' button """)
+            20. Verify 'ACCOUNT DELETED!' and click 'Continue' button""")
     @Test(priority = 0, description = "Test Case 14: Place Order: Register while Checkout")
     public void RegisterWhileCheckout_Test_TC14() {
 
@@ -154,84 +155,90 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
         //3. Verify that home page is visible successfully
 
         //4. Click 'Signup / Login' button
-        checkoutPage.signUpLogin_Button.click();
+        clickSignUpLoginButton();
 
         //5. Fill all details in Signup and create account
-        name = randomName(5);
-        email = randomEmail(5);
-        System.out.println("name --> " + name);
-        System.out.println("mail --> " + email);
-        checkoutPage.name_TextBox.sendKeys(name);
-        checkoutPage.emailAddress_TextBox.sendKeys(email);
-        checkoutPage.signUp_Button.click();
-        checkoutPage.genderMr_RadioButton.click();
+        Map<String, String> registerInfo = register_fromLoginPage();
+        handleGoogleVignette(() -> Driver.getDriver().navigate().refresh());
 
-        String password = randomPassWord(5);
-        actions = new Actions(Driver.getDriver());
-        actions.sendKeys(Keys.TAB)
-                .sendKeys(Keys.TAB)
-                .sendKeys(password).build().perform();
 
-        select = new Select(checkoutPage.day_Ddm);
-        select.selectByValue(String.valueOf(rnd.nextInt(1, 32)));
-
-        select = new Select(checkoutPage.months_Ddm);
-        select.selectByValue(String.valueOf(rnd.nextInt(1, 13)));
-
-        select = new Select(checkoutPage.years_Ddm);
-        select.selectByValue(String.valueOf(rnd.nextInt(1900, 2021)));
-
-        checkoutPage.newsletter_RadioButton.click();
-        checkoutPage.specialOffer_RadioButton.click();
-
-        actions.sendKeys(Keys.TAB)
-                .sendKeys(name)
-                .sendKeys(Keys.TAB, random(7, true, false))
-                .sendKeys(Keys.TAB, random(4, true, false) + " " + random(3, true, false))
-                .sendKeys(Keys.TAB, faker.address().fullAddress())
-                .sendKeys(Keys.TAB, faker.address().city(), Keys.TAB)
-                .build().perform();
-
-        select = new Select(checkoutPage.country_Ddm);
-        select.selectByIndex(rnd.nextInt(0, 7));
-
-        actions.sendKeys(Keys.TAB)
-                .sendKeys(faker.address().state())
-                .sendKeys(Keys.TAB).sendKeys(faker.address().city())
-                .sendKeys(Keys.TAB).sendKeys(faker.address().zipCode())
-                .sendKeys(Keys.TAB).sendKeys(faker.phoneNumber().cellPhone())
-                .build().perform();
-
-        checkoutPage.createAccount_Button.click();
-
-        //6. Verify 'ACCOUNT CREATED!' and click 'Continue' button
-        actualText = checkoutPage.accountCreated_text.getText().toLowerCase();
-        expectedText = "ACCOUNT CREATED";
-        System.out.println("-----Account Created------");
-        Assert.assertTrue(actualText.contains(expectedText.toLowerCase()), "ACCOUNT CREATED yazısı goruntulenmedi");
-
-        checkoutPage.continue_button.click();
-
-        if (Driver.getDriver().getCurrentUrl().contains("google_vignette")) {
-            Driver.getDriver().navigate().refresh();
-            checkoutPage.continue_button.click();
-        }
+        //------------
+//        name = randomName(5);
+//        email = randomEmail(5);
+//        System.out.println("name --> " + name);
+//        System.out.println("mail --> " + email);
+//        checkoutPage.name_TextBox.sendKeys(name);
+//        checkoutPage.emailAddress_TextBox.sendKeys(email);
+//        checkoutPage.signUp_Button.click();
+//        checkoutPage.genderMr_RadioButton.click();
+//
+//        String password = randomPassWord(5);
+//        actions = new Actions(Driver.getDriver());
+//        actions.sendKeys(Keys.TAB)
+//                .sendKeys(Keys.TAB)
+//                .sendKeys(password).build().perform();
+//
+//        select = new Select(checkoutPage.day_Ddm);
+//        select.selectByValue(String.valueOf(rnd.nextInt(1, 32)));
+//
+//        select = new Select(checkoutPage.months_Ddm);
+//        select.selectByValue(String.valueOf(rnd.nextInt(1, 13)));
+//
+//        select = new Select(checkoutPage.years_Ddm);
+//        select.selectByValue(String.valueOf(rnd.nextInt(1900, 2021)));
+//
+//        checkoutPage.newsletter_RadioButton.click();
+//        checkoutPage.specialOffer_RadioButton.click();
+//
+//        actions.sendKeys(Keys.TAB)
+//                .sendKeys(name)
+//                .sendKeys(Keys.TAB, random(7, true, false))
+//                .sendKeys(Keys.TAB, random(4, true, false) + " " + random(3, true, false))
+//                .sendKeys(Keys.TAB, faker.address().fullAddress())
+//                .sendKeys(Keys.TAB, faker.address().city(), Keys.TAB)
+//                .build().perform();
+//
+//        select = new Select(checkoutPage.country_Ddm);
+//        select.selectByIndex(rnd.nextInt(0, 7));
+//
+//        actions.sendKeys(Keys.TAB)
+//                .sendKeys(faker.address().state())
+//                .sendKeys(Keys.TAB).sendKeys(faker.address().city())
+//                .sendKeys(Keys.TAB).sendKeys(faker.address().zipCode())
+//                .sendKeys(Keys.TAB).sendKeys(faker.phoneNumber().cellPhone())
+//                .build().perform();
+//
+//        checkoutPage.createAccount_Button.click();
+//
+//        //6. Verify 'ACCOUNT CREATED!' and click 'Continue' button
+//        actualText = checkoutPage.accountCreated_text.getText().toLowerCase();
+//        expectedText = "ACCOUNT CREATED";
+//        System.out.println("-----Account Created------");
+//        Assert.assertTrue(actualText.contains(expectedText.toLowerCase()), "ACCOUNT CREATED yazısı goruntulenmedi");
+//
+//        checkoutPage.continue_button.click();
+//
+//        if (Driver.getDriver().getCurrentUrl().contains("google_vignette")) {
+//            Driver.getDriver().navigate().refresh();
+//            checkoutPage.continue_button.click();
+//        }
 
         //7. Verify ' Logged in as username' at top
-        System.out.println(checkoutPage.loggedIn_Text.getText());
-        Assert.assertTrue(checkoutPage.loggedIn_Text.isDisplayed(), "Logged in as Username yazısı görüntülenmedi");
-        Assert.assertTrue(checkoutPage.loggedIn_Text.getText().contains(name)
-                , "' Logged in as username' text is not displayed or doesnt contain the registered name");
+        verifyLoggedInAsUsername(registerInfo.get("userName"));
+//        System.out.println(checkoutPage.loggedIn_Text.getText());
+//        Assert.assertTrue(checkoutPage.loggedIn_Text.isDisplayed(), "Logged in as Username yazısı görüntülenmedi");
+//        Assert.assertTrue(checkoutPage.loggedIn_Text.getText().contains(name)
+//                , "' Logged in as username' text is not displayed or doesnt contain the registered name");
 
         //8. Add products to cart
-        checkoutPage.firstProductAddToCart_Button.click();
-        checkoutPage.continueShopping_Button.click();
-
-        checkoutPage.secondProductAddToCart_Button.click();
-        checkoutPage.continueShopping_Button.click();
+        addSomeProductsToCart(2);
+//        checkoutPage.firstProductAddToCart_Button.click();
+//        checkoutPage.continueShopping_Button.click();
+//
+//        checkoutPage.secondProductAddToCart_Button.click();
+//        checkoutPage.continueShopping_Button.click();
 
         //9. Click 'Cart' button
-
         clickCartButton();
 
         //10. Verify that cart page is displayed
@@ -248,11 +255,12 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
         checkoutPage.placeOrder_Button.click();
 
         //14. Enter payment details: Name on Card, Card Number, CVC, Expiration date
-        checkoutPage.nameOnCard_TextBox.sendKeys(name);
-        checkoutPage.cardNumber_TextBox.sendKeys(faker.business().creditCardNumber());
-        checkoutPage.cvc_TextBox.sendKeys(faker.number().digits(3));
-        checkoutPage.expiration_TextBox.sendKeys(dateMonth());
-        checkoutPage.expirationYear_TextBox.sendKeys(dateYear());
+        enterPaymentDetails();
+//        checkoutPage.nameOnCard_TextBox.sendKeys(name);
+//        checkoutPage.cardNumber_TextBox.sendKeys(faker.business().creditCardNumber());
+//        checkoutPage.cvc_TextBox.sendKeys(faker.number().digits(3));
+//        checkoutPage.expiration_TextBox.sendKeys(dateMonth());
+//        checkoutPage.expirationYear_TextBox.sendKeys(dateYear());
 
         //15. Click 'Pay and Confirm Order' button
         checkoutPage.payAndConfirmOrder_Button.click();
@@ -262,20 +270,24 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
                 , "Congratulations! Your order has been confirmed! texti goruntulenmiyor");
 
         //17. Click 'Delete Account' button
-        checkoutPage.deleteAccount_Button.click();
+        deleteUserAndVerifyAccDeleted();
+//        checkoutPage.deleteAccount_Button.click();
 
         //18. Verify 'ACCOUNT DELETED!' and click 'Continue' button
-        actualText = checkoutPage.accountDeleted_text.getText();
-        System.out.println(actualText);
-        expectedText = "ACCOUNT DELETED";
-        Assert.assertTrue(actualText.contains(expectedText), "Delete Account yazısı goruntulenmedi");
+//        actualText = checkoutPage.accountDeleted_text.getText();
+//        System.out.println(actualText);
+//        expectedText = "ACCOUNT DELETED";
+//        Assert.assertTrue(actualText.contains(expectedText), "Delete Account yazısı goruntulenmedi");
+//
+//        checkoutPage.continueafterDeleted_Button.click();
 
-        checkoutPage.continueafterDeleted_Button.click();
+        handleGoogleVignette(()-> checkoutPage.continueafterDeleted_Button.click());
 
-        if (Driver.getDriver().getCurrentUrl().contains("google_vignette")) {
-            Driver.getDriver().navigate().refresh();
-            checkoutPage.continueafterDeleted_Button.click();
-        }
+
+//        if (Driver.getDriver().getCurrentUrl().contains("google_vignette")) {
+//            Driver.getDriver().navigate().refresh();
+//            checkoutPage.continueafterDeleted_Button.click();
+//        }
 
 
     }
