@@ -19,6 +19,8 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -806,12 +808,12 @@ public class ReusableMethods {
         List<WebElement> allAddToCartButtons_list = productsPage.allAddToCartButton_inProductsPage;
         System.out.println("productsPage.allAddToCartButton_inProductsPage = " + productsPage.allAddToCartButton_inProductsPage.size());
 
-            int index;
+        int index;
         for (int i = 0; i < productsCount; i++) {
-            index = rnd.nextInt(0, allAddToCartButtons_list.size()-1);
+            index = rnd.nextInt(0, allAddToCartButtons_list.size() - 1);
             System.out.println("ilk index = " + index);
-            if (index % 2 ==1){
-               index++;
+            if (index % 2 == 1) {
+                index++;
                 System.out.println("index +1 = " + index);
             }
             System.out.println("index try oncesi = " + index);
@@ -819,7 +821,7 @@ public class ReusableMethods {
                 allAddToCartButtons_list.get(index).click();
                 productsPage.continueShopping_Button.click();
                 System.out.println("index try içinde tiklandi");
-            }catch(Exception e){
+            } catch (Exception e) {
                 allAddToCartButtons_list.get(0).click();
                 productsPage.continueShopping_Button.click();
             }
@@ -829,15 +831,109 @@ public class ReusableMethods {
     }
 
     public static void clickCartButton() {
-        HomePage homePage= new HomePage();
+        HomePage homePage = new HomePage();
         homePage.cart_Button.click();
     }
 
 
-    public static void clickSignUpLoginButton(){
+    public static void clickSignUpLoginButton() {
         HomePage homePage = new HomePage();
         homePage.signUpLogin_Button.click();
     }
+
+
+    public static void verifyCartPageIsDisplayed() {
+        CartPage cartPage = new CartPage();
+        Assert.assertTrue(cartPage.shoppingCart_text.getText().toLowerCase()
+                .contains("shopping cart"), "Cart Page is not displayed");
+    }
+
+
+    public static void verifyDeliveryAdressSameWithRegistrationOfAccount(Map<String, String> registerMap) {
+        List<String> addressInfoList = new ArrayList<>();
+        addressInfoList.add(registerMap.get("randomfirstName"));
+        addressInfoList.add(registerMap.get("randomLastName"));
+        addressInfoList.add(registerMap.get("fakerAdress"));
+        addressInfoList.add(registerMap.get("fakerAdressSecond"));
+        addressInfoList.add(registerMap.get("fakerCity"));
+        addressInfoList.add(registerMap.get("fakerState"));
+        addressInfoList.add(registerMap.get("fakerZipCode"));
+        addressInfoList.add(registerMap.get("ddmCountry"));
+        addressInfoList.add(registerMap.get("randomMobileNumber"));
+
+        CheckoutPage checkoutPage = new CheckoutPage();
+        String deliveryAddress = checkoutPage.deliveryAddress_Text.getText();
+        for (String str : addressInfoList
+        ) {
+            Assert.assertTrue(deliveryAddress.toLowerCase().contains(str.toLowerCase()),
+                    str + "info is not verified in delivery address");
+        }
+
+    }
+
+
+    public static void verifyBillingAdressSameWithRegistrationOfAccount(Map<String, String> registerMap) {
+        List<String> addressInfoList = new ArrayList<>();
+        addressInfoList.add(registerMap.get("randomfirstName"));
+        addressInfoList.add(registerMap.get("randomLastName"));
+        addressInfoList.add(registerMap.get("fakerAdress"));
+        addressInfoList.add(registerMap.get("fakerAdressSecond"));
+        addressInfoList.add(registerMap.get("fakerCity"));
+        addressInfoList.add(registerMap.get("fakerState"));
+        addressInfoList.add(registerMap.get("fakerZipCode"));
+        addressInfoList.add(registerMap.get("ddmCountry"));
+        addressInfoList.add(registerMap.get("randomMobileNumber"));
+
+        CheckoutPage checkoutPage = new CheckoutPage();
+        String billingAddress = checkoutPage.billingAddress_Text.getText();
+        for (String str : addressInfoList
+        ) {
+            Assert.assertTrue(billingAddress.toLowerCase()
+                    .contains(str.toLowerCase()), str + "info is not verified in billing address");
+        }
+
+    }
+
+
+
+    public static void verifyAdressDetailsAndReviewOrder(){
+        CheckoutPage checkoutPage = new CheckoutPage();
+        Assert.assertTrue(checkoutPage.addressDetails_Text.isDisplayed(), "Address Details title isn't displayed");
+        Assert.assertTrue(checkoutPage.productNamesInOrderPage_text.size() > 0, "Ordered products are not visible");
+    }
+
+
+    public static void verifySuccessMsgOrderPlacedSuccessfully(){
+        CheckoutPage checkoutPage = new CheckoutPage();
+        Assert.assertTrue(checkoutPage.successMsg_Text.isDisplayed()
+                , "Congratulations! Your order has been confirmed! texti goruntulenmiyor");
+    }
+
+    public static void verifyInvoiceIsDownloaded() throws IOException {
+        waitFor(2);
+        String filePath = System.getProperty("user.home") + "/Downloads/invoice.txt";
+        Assert.assertTrue(Files.exists(Path.of(filePath)), "Downloaded file is not in it's place.");
+        Files.deleteIfExists(Path.of(filePath));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

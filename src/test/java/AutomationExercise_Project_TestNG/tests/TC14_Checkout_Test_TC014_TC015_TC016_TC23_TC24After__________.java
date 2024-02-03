@@ -1,31 +1,23 @@
 package AutomationExercise_Project_TestNG.tests;
 
-import AutomationExercise_Project_TestNG.pages.CheckoutPage;
-import AutomationExercise_Project_TestNG.pages.HomePage;
-import AutomationExercise_Project_TestNG.pages.LoginPage;
-import AutomationExercise_Project_TestNG.pages.ProductsPage;
+import AutomationExercise_Project_TestNG.pages.*;
 import AutomationExercise_Project_TestNG.utilities.Driver;
 import AutomationExercise_Project_TestNG.utilities.TestBaseBeforeAfterMethod;
 import com.github.javafaker.Faker;
 import jdk.jfr.Description;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Random;
 
 import static AutomationExercise_Project_TestNG.utilities.ReusableMethods.*;
 import static org.apache.commons.lang3.RandomStringUtils.random;
 
-public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBaseBeforeAfterMethod {
+public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After__________ extends TestBaseBeforeAfterMethod {
 
     Actions actions;
     CheckoutPage checkoutPage;
@@ -61,7 +53,7 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
             18. Verify success message 'Your order has been placed successfully!'
             19. Click 'Delete Account' button
             20. Verify 'ACCOUNT DELETED!' and click 'Continue' button""")
-    @Test(priority = 0, description = "Test Case 14: Place Order: Register while Checkout")
+    @Test(priority = 1, description = "Test Case 14: Place Order: Register while Checkout")
     public void RegisterWhileCheckout_Test_TC14() {
 
         checkoutPage = new CheckoutPage();
@@ -99,7 +91,7 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
         checkoutPage.proceedToCheckout_Button.click();
 
         //14. Verify Address Details and Review Your Order
-        Assert.assertTrue(checkoutPage.addressDetails_Text.isDisplayed(), "Address Details title isn't displayed");
+        verifyAdressDetailsAndReviewOrder();
 
         //15. Enter description in comment text area and click 'Place Order'
         checkoutPage.comment_TextBox.sendKeys(randomParagraph(50));
@@ -113,9 +105,7 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
         checkoutPage.payAndConfirmOrder_Button.click();
 
         //18. Verify success message 'Your order has been placed successfully!'
-        Assert.assertTrue(checkoutPage.successMsg_Text.isDisplayed()
-                , "Congratulations! Your order has been confirmed! texti goruntulenmiyor");
-
+        verifySuccessMsgOrderPlacedSuccessfully();
         waitFor(1);
         handleGoogleVignette(() -> Driver.getDriver().navigate().refresh());
 
@@ -144,7 +134,7 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
             17. Click 'Delete Account' button
             18. Verify 'ACCOUNT DELETED!' and click 'Continue' button
             """)
-    @Test(priority = 1, description = "Test Case 15: Place Order: Register before Checkout")
+    @Test(priority = 2, description = "Test Case 15: Place Order: Register before Checkout")
     public void RegisterBeforeCheckout_Test_TC15() {
         actions = new Actions(Driver.getDriver());
         rnd = new Random();
@@ -172,13 +162,13 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
         clickCartButton();
 
         //10. Verify that cart page is displayed
-        Assert.assertTrue(checkoutPage.shoppingCart_text.getText().toLowerCase().contains("shopping cart"), "Cart Page isnt displayed");
+        verifyCartPageIsDisplayed();
 
         //11. Click Proceed To Checkout
         checkoutPage.proceedToCheckout_Button.click();
 
         //12. Verify Address Details and Review Your Order
-        Assert.assertTrue(checkoutPage.addressDetails_Text.isDisplayed(), "Address Details title isn't displayed");
+        verifyAdressDetailsAndReviewOrder();
 
         //13. Enter description in comment text area and click 'Place Order'
         checkoutPage.comment_TextBox.sendKeys(randomParagraph(50));
@@ -192,12 +182,11 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
         checkoutPage.payAndConfirmOrder_Button.click();
 
         //16. Verify success message 'Your order has been placed successfully!'
-        Assert.assertTrue(checkoutPage.successMsg_Text.isDisplayed()
-                , "Congratulations! Your order has been confirmed! texti goruntulenmiyor");
+        verifySuccessMsgOrderPlacedSuccessfully();
 
         //17. Click 'Delete Account' button
         deleteUserAndVerifyAccDeleted();
-//        checkoutPage.deleteAccount_Button.click();
+
         //18. Verify 'ACCOUNT DELETED!' and click 'Continue' button
         handleGoogleVignette(() -> checkoutPage.continueafterDeleted_Button.click());
     }
@@ -222,7 +211,7 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
             16. Click 'Delete Account' button
             17. Verify 'ACCOUNT DELETED!' and click 'Continue' button
             """)
-    @Test(description = "Test Case 16: Place Order: Login before Checkout", priority = 2, dependsOnMethods = "registerAndLogout")
+    @Test(priority = 3, dependsOnMethods = "registerAndLogout", description = "Test Case 16: Place Order: Login before Checkout")
     public void LoginBeforeCheckout_Test_TC16() {
 
         actions = new Actions(Driver.getDriver());
@@ -248,18 +237,18 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
         clickCartButton();
 
         //9. Verify that cart page is displayed
-        Assert.assertTrue(checkoutPage.shoppingCart_text.getText().toLowerCase().contains("shopping cart"), "Cart Page is not displayed");
+        verifyCartPageIsDisplayed();
 
         //10. Click Proceed To Checkout
         checkoutPage.proceedToCheckout_Button.click();
 
         //11. Verify Address Details and Review Your Order
-        Assert.assertTrue(checkoutPage.addressDetails_Text.isDisplayed(), "Address Details title isn't displayed");
+        verifyAdressDetailsAndReviewOrder();
 
         //12. Enter description in comment text area and click 'Place Order'
         checkoutPage.comment_TextBox.sendKeys(randomParagraph(50));
         checkoutPage.placeOrder_Button.click();
-        handleGoogleVignette(()-> checkoutPage.placeOrder_Button.click());
+        handleGoogleVignette(() -> checkoutPage.placeOrder_Button.click());
 
         //13. Enter payment details: Name on Card, Card Number, CVC, Expiration date
         enterPaymentDetails();
@@ -268,13 +257,12 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
         checkoutPage.payAndConfirmOrder_Button.click();
 
         //15. Verify success message 'Your order has been placed successfully!'
-        Assert.assertTrue(checkoutPage.successMsg_Text.isDisplayed()
-                , "Congratulations! Your order has been confirmed! texti goruntulenmiyor");
+        verifySuccessMsgOrderPlacedSuccessfully();
 
         //16. Click 'Delete Account' button
         //17. Verify 'ACCOUNT DELETED!' and click 'Continue' button
         deleteUserAndVerifyAccDeleted();
-        handleGoogleVignette(()->checkoutPage.continueafterDeleted_Button.click());
+        handleGoogleVignette(() -> checkoutPage.continueafterDeleted_Button.click());
     }
 
     Random rndNumber;
@@ -296,7 +284,7 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
             13. Verify that the billing address is same address filled at the time registration of account
             14. Click 'Delete Account' button
             15. Verify 'ACCOUNT DELETED!' and click 'Continue' button""")
-    @Test(priority = 3, description = "Test Case 23: Verify address details in checkout page")
+    @Test(priority = 4, description = "Test Case 23: Verify address details in checkout page")
     public void verifyAddressDetailsInCheckoutPage_TC23() {
         checkoutPage = new CheckoutPage();
         //Test Case 23: Verify address details in checkout page
@@ -305,70 +293,35 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
         //3. Verify that home page is visible successfully
 
         //4. Click 'Signup / Login' button
-        checkoutPage.signUpLogin_Button.click();
+        clickSignUpLoginButton();
 
         //5. Fill all details in Signup and create account
         //6. Verify 'ACCOUNT CREATED!' and click 'Continue' button
         Map<String, String> infoRegister = register_fromLoginPage();
-        name = infoRegister.get("name");
 
         //7. Verify ' Logged in as username' at top
-        Assert.assertEquals(name, checkoutPage.loggedInUserName_Text.getText().trim(), "Logged username is not verified");
+        verifyLoggedInAsUsername(infoRegister.get("userName"));
 
         //8. Add products to cart
+        addSomeProductsToCart(1);
         //9. Click 'Cart' button
         clickCartButton();
-        List<WebElement> addToCartButtonList = checkoutPage.addToCart_ButtonList;
-        rndNumber = new Random();
-        for (int i = 0; i < 3; i++) {
-            addToCartButtonList.get(rndNumber.nextInt(0, addToCartButtonList.size())).click();
-            waitForVisibility(checkoutPage.viewCartOnPopUp_Button, 1000);
-            if (i < 2) {
-                checkoutPage.continueShoppingOnPopUp_Button.click();
-            } else checkoutPage.viewCartOnPopUp_Button.click();
-        }
 
         //10. Verify that cart page is displayed
-        Assert.assertTrue(checkoutPage.shoppingCart_text.getText().toLowerCase().contains("shopping cart"), "Cart Page isnt displayed");
+        verifyCartPageIsDisplayed();
 
         //11. Click Proceed To Checkout
         checkoutPage.proceedToCheckout_Button.click();
 
         //12. Verify that the delivery address is same address filled at the time registration of account
-
-
-        List<String> addressInfoList = new ArrayList<>();
-        addressInfoList.add(infoRegister.get("randomfirstName"));
-        addressInfoList.add(infoRegister.get("randomLastName"));
-        addressInfoList.add(infoRegister.get("fakerAdress"));
-        addressInfoList.add(infoRegister.get("fakerAdressSecond"));
-        addressInfoList.add(infoRegister.get("fakerCity"));
-        addressInfoList.add(infoRegister.get("fakerState"));
-        addressInfoList.add(infoRegister.get("fakerZipCode"));
-        addressInfoList.add(infoRegister.get("ddmCountry"));
-        addressInfoList.add(infoRegister.get("randomMobileNumber"));
-
-        String deliveryAddress = checkoutPage.deliveryAddress_Text.getText();
-        for (String s : addressInfoList
-        ) {
-            Assert.assertTrue(deliveryAddress.toLowerCase().contains(s.toLowerCase()), s + "info is not verified in delivery address");
-        }
+        verifyDeliveryAdressSameWithRegistrationOfAccount(infoRegister);
 
         //13. Verify that the billing address is same address filled at the time registration of account
-        String billingAddress = checkoutPage.billingAddress_Text.getText();
-
-        for (String s : addressInfoList
-        ) {
-            Assert.assertTrue(billingAddress.toLowerCase().contains(s.toLowerCase()), s + "info is not verified in billing address");
-        }
+        verifyBillingAdressSameWithRegistrationOfAccount(infoRegister);
 
         //14. Click 'Delete Account' button
-        checkoutPage.deleteAccount_Button.click();
-
         //15. Verify 'ACCOUNT DELETED!' and click 'Continue' button
-        Assert.assertTrue(checkoutPage.accountDeleted_text.isDisplayed(), "ACCOUNT DELETED! text is not verified.");
-        checkoutPage.continue_button.click();
-
+        deleteUserAndVerifyAccDeleted();
     }
 
     @Description("""
@@ -395,8 +348,8 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
             20. Click 'Continue' button
             21. Click 'Delete Account' button
             22. Verify 'ACCOUNT DELETED!' and click 'Continue' button""")
-    @Test(priority = 4, description = "Test Case 24: Download Invoice after purchase order")
-    public void downloadInvoiceAfterPurchaseOrder() {
+    @Test(priority = 5, description = "Test Case 24: Download Invoice after purchase order")
+    public void downloadInvoiceAfterPurchaseOrder() throws IOException {
         checkoutPage = new CheckoutPage();
         faker = new Faker();
         //Test Case 24: Download Invoice after purchase order
@@ -405,20 +358,12 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
         //3. Verify that home page is visible successfully
 
         //4. Add products to cart
+        addSomeProductsToCart(1);
         //5. Click 'Cart' button
         clickCartButton();
-        List<WebElement> addToCartButtonList = checkoutPage.addToCart_ButtonList;
-        rndNumber = new Random();
-        for (int i = 0; i < 3; i++) {
-            addToCartButtonList.get(rndNumber.nextInt(0, addToCartButtonList.size())).click();
-            waitForVisibility(checkoutPage.viewCartOnPopUp_Button, 1000);
-            if (i < 2) {
-                checkoutPage.continueShoppingOnPopUp_Button.click();
-            } else checkoutPage.viewCartOnPopUp_Button.click();
-        }
 
         //6. Verify that cart page is displayed
-        Assert.assertTrue(checkoutPage.shoppingCart_text.getText().toLowerCase().contains("shopping cart"), "Cart Page isnt displayed");
+        verifyCartPageIsDisplayed();
 
         //7. Click Proceed To Checkout
         checkoutPage.proceedToCheckout_Button.click();
@@ -429,63 +374,50 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After extends TestBas
         //9. Fill all details in Signup and create account
         //10. Verify 'ACCOUNT CREATED!' and click 'Continue' button
         Map<String, String> infoRegister = register_fromLoginPage();
-        name = infoRegister.get("name");
 
         //11. Verify ' Logged in as username' at top
-        Assert.assertEquals(name, checkoutPage.loggedInUserName_Text.getText().trim(), "Logged username is not verified");
+        verifyLoggedInAsUsername(infoRegister.get("userName"));
 
         //12.Click 'Cart' button
-        checkoutPage.cart_Button.click();
+        clickCartButton();
 
         //13. Click 'Proceed To Checkout' button
         checkoutPage.proceedToCheckout_Button.click();
 
         //14. Verify Address Details and Review Your Order
-        Assert.assertTrue(checkoutPage.addressDetails_Text.isDisplayed(), "Address Details title isn't displayed");
-        Assert.assertTrue(checkoutPage.productNamesInOrderPage_text.size() > 0, "Ordered products are not visible");
+        verifyAdressDetailsAndReviewOrder();
 
         //15. Enter description in comment text area and click 'Place Order'
         checkoutPage.comment_TextBox.sendKeys(randomParagraph(40));
         checkoutPage.placeOrder_Button.click();
 
-        if (Driver.getDriver().getCurrentUrl().contains("google_vignette")) {
-            Driver.getDriver().navigate().refresh();
-            checkoutPage.comment_TextBox.sendKeys(randomParagraph(40));
-            checkoutPage.placeOrder_Button.click();
-        }
+        handleGoogleVignette(new Runnable() {
+            @Override
+            public void run() {
+                checkoutPage.comment_TextBox.sendKeys(randomParagraph(40));
+                checkoutPage.placeOrder_Button.click();
+            }
+        });
 
         //16. Enter payment details: Name on Card, Card Number, CVC, Expiration date
-        checkoutPage.nameOnCard_TextBox.sendKeys(name);
-        checkoutPage.cardNumber_TextBox.sendKeys(faker.business().creditCardNumber());
-        checkoutPage.cvc_TextBox.sendKeys(faker.number().digits(3));
-        checkoutPage.expiration_TextBox.sendKeys(dateMonth());
-        checkoutPage.expirationYear_TextBox.sendKeys(dateYear());
-
+        enterPaymentDetails();
 
         //17. Click 'Pay and Confirm Order' button
         checkoutPage.payAndConfirmOrder_Button.click();
 
         //18. Verify success message 'Your order has been placed successfully!'
-        Assert.assertTrue(checkoutPage.successMsg_Text.isDisplayed()
-                , "Congratulations! Your order has been confirmed! texti goruntulenmiyor");
+        verifySuccessMsgOrderPlacedSuccessfully();
 
         //19. Click 'Download Invoice' button and verify invoice is downloaded successfully.
         checkoutPage.downloadInvoice_Button.click();
-
-        // Files.exists()
-        String filePath = System.getProperty("user.home") + "/Downloads/invoice.txt"; //String filePath =System.getProperty("user.home")+"/Downloads/invoice.txt";
-        Assert.assertTrue(Files.exists(Path.of(filePath)), "Downloaded file is not in it's place.");
+        verifyInvoiceIsDownloaded();
 
         //20. Click 'Continue' button
         checkoutPage.continue_button.click();
 
         //21. Click 'Delete Account' button
-        checkoutPage.deleteAccount_Button.click();
-
         //22. Verify 'ACCOUNT DELETED!' and click 'Continue' button
-        Assert.assertTrue(checkoutPage.accountDeleted_text.isDisplayed(), "ACCOUNT DELETED! text is not verified.");
-        checkoutPage.continue_button.click();
-
+        deleteUserAndVerifyAccDeleted();
     }
 
     @Test()
