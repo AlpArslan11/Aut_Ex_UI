@@ -815,9 +815,14 @@ public class ReusableMethods {
                 System.out.println("index +1 = " + index);
             }
             System.out.println("index try oncesi = " + index);
+            try {
                 allAddToCartButtons_list.get(index).click();
                 productsPage.continueShopping_Button.click();
                 System.out.println("index try içinde tiklandi");
+            }catch(Exception e){
+                allAddToCartButtons_list.get(0).click();
+                productsPage.continueShopping_Button.click();
+            }
             System.out.println("__________________");
 
         }

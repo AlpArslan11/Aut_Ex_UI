@@ -155,6 +155,7 @@ public class TC02_Login_Test_TC02_TC03_TC04After__________ extends TestBaseBefor
         loginpage.signUp_button.click();
         registerInfo = register_fromLoginPage();
         logoutUser();
+
     }
 
 
