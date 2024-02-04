@@ -32,7 +32,7 @@ public class TC01_Registration_Test_TC01_TC05After______________ extends TestBas
             16. Verify that 'Logged in as username' is visible
             17. Click 'Delete Account' button
             18. Verify that 'ACCOUNT DELETED!' is visible and click 'Continue' button
-            """    )
+            """)
     RegistrationPage registrationPage;
     String actualText, expectedText;
     Map<String, String> registerInfo;
@@ -70,7 +70,18 @@ public class TC01_Registration_Test_TC01_TC05After______________ extends TestBas
     //7. Click 'Signup' button
     //8. Verify error 'Email Address already exist!' is visible
 
-    @Test(priority = 2, dependsOnMethods = "registerAndLogout")
+    @Description("""
+            Test Case 5: Register User with existing email
+            1. Launch browser
+            2. Navigate to url 'http://automationexercise.com'
+            3. Verify that home page is visible successfully
+            4. Click on 'Signup / Login' button
+            5. Verify 'New User Signup!' is visible
+            6. Enter name and already registered email address
+            7. Click 'Signup' button
+            8. Verify error 'Email Address already exist!' is visible
+            """)
+    @Test(priority = 2, dependsOnMethods = "registerAndLogout", description = "Test Case 5: Register User with existing email")
     public void registerWithExistingEmail_test_TC05() {
         //Test Case-5: REGISTERING WITH EXISTING USER INFO
         registrationPage = new RegistrationPage();

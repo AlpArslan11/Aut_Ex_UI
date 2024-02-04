@@ -3,6 +3,7 @@ package AutomationExercise_Project_TestNG.tests;
 import AutomationExercise_Project_TestNG.pages.ContactUsPage;
 import AutomationExercise_Project_TestNG.utilities.Driver;
 import AutomationExercise_Project_TestNG.utilities.TestBaseBeforeAfterMethod;
+import jdk.jfr.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -11,6 +12,20 @@ import static AutomationExercise_Project_TestNG.utilities.ReusableMethods.*;
 
 public class TC06_ContactUs_Test_TC06After________ extends TestBaseBeforeAfterMethod {
 
+
+    @Description("""
+            Test Case 6: Contact Us Form
+            1. Launch browser
+            2. Navigate to url 'http://automationexercise.com'
+            3. Verify that home page is visible successfully
+            4. Click on 'Contact Us' button
+            5. Verify 'GET IN TOUCH' is visible
+            6. Enter name, email, subject and message
+            7. Upload file
+            8. Click 'Submit' button
+            9. Click OK button
+            10. Verify success message 'Success! Your details have been submitted successfully.' is visible
+            11. Click 'Home' button and verify that landed to home page successfully""")
     ContactUsPage contactUsPage;
 
 
@@ -26,8 +41,8 @@ public class TC06_ContactUs_Test_TC06After________ extends TestBaseBeforeAfterMe
     //9. Click OK button
     //10. Verify success message 'Success! Your details have been submitted successfully.' is visible
     //11. Click 'Home' button and verify that landed to home page successfully
-    @Test
-    public void contactUs_Test_TC06() throws InterruptedException {
+    @Test(description = "Test Case 6: Contact Us Form")
+    public void contactUs_Test_TC06() {
         contactUsPage = new ContactUsPage();
         //Test Case-6 SUBMITTING CONTACT US FORM
 
@@ -50,8 +65,7 @@ public class TC06_ContactUs_Test_TC06After________ extends TestBaseBeforeAfterMe
         //7. Upload file
         String path = System.getProperty("user.home") + "\\Desktop\\com.aut_ex.ui\\src\\test\\resources\\letter.txt";
         contactUsPage.uploadFile_button.sendKeys(path);
-        Thread.sleep(3000);
-
+        waitFor(3);
         //8. Click 'Submit' button
         contactUsPage.submit_button.click();
 
@@ -66,7 +80,6 @@ public class TC06_ContactUs_Test_TC06After________ extends TestBaseBeforeAfterMe
         //11. Click 'Home' button and verify that landed to home page successfully
         contactUsPage.home_button.click();
         handleGoogleVignette(() -> contactUsPage.home_button.click());
-
         verifyLandedToHomePage();
 
 

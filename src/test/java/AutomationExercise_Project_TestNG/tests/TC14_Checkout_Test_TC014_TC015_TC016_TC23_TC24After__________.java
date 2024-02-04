@@ -22,12 +22,7 @@ public class TC14_Checkout_Test_TC014_TC015_TC016_TC23_TC24After__________ exten
     Actions actions;
     CheckoutPage checkoutPage;
     Random rnd;
-    Select select;
     Faker faker;
-    String name;
-    String email;
-    String actualText;
-    String expectedText;
     Map<String, String> registerInfo;
 
 

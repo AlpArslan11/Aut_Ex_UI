@@ -1088,6 +1088,36 @@ public class ReusableMethods {
     }
 
 
+    public static void verifySubscriptionIsVisible(){
+        Functions_Page functionsPage = new Functions_Page();
+        Assert.assertEquals(functionsPage.subscription_text.getText().toLowerCase()
+                ,"SUBSCRIPTION".toLowerCase(),
+                "SUBSCRIPTION is not displayed");
+    }
+
+    public static void verifyFullFLedgedADSIsVisible() {
+        Functions_Page functionsPage = new Functions_Page();
+        Assert.assertTrue(functionsPage.homepageLogo.isDisplayed(), "HomePage logo is not displayed");
+        Assert.assertTrue(functionsPage.fullFledgedPractice_Text.isDisplayed()
+                , "HomePage text -Full-Fledged practice website for Automation Engineers- is not visible");
+    }
+
+    public static void clickOnArrowToMoveUpward() {
+        Functions_Page functionsPage = new Functions_Page();
+        functionsPage.scroolUp_Button.click();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 

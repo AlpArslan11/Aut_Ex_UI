@@ -22,17 +22,17 @@ public class TC08_Products_Test_TC08_TC09_TC21____________ extends TestBaseBefor
     String firstProduct;
     Random rnd;
 
-    //Test Case 8: Verify All Products and product detail page
-    //1. Launch browser
-    //2. Navigate to url 'http://automationexercise.com'
-    //3. Verify that home page is visible successfully
-    //4. Click on 'Products' button
-    //5. Verify user is navigated to ALL PRODUCTS page successfully
-    //6. The products list is visible
-    //7. Click on 'View Product' of first product
-    //8. User is landed to product detail page
-    //9. Verify that detail is visible: product name, category, price, availability, condition, brand
-    @Test
+    @Test(description = """
+            Test Case 8: Verify All Products and product detail page
+            1. Launch browser
+            2. Navigate to url 'http://automationexercise.com'
+            3. Verify that home page is visible successfully
+            4. Click on 'Products' button
+            5. Verify user is navigated to ALL PRODUCTS page successfully
+            6. The products list is visible
+            7. Click on 'View Product' of first product
+            8. User is landed to product detail page
+            9. Verify that detail detail is visible: product name, category, price, availability, condition, brand""")
     public void products_tests_TC08() throws InterruptedException {
         //Test Case-8 LISTING THE PRODUCTS AND PRODUCT DETAILS
         productsPage = new ProductsPage();
@@ -122,21 +122,19 @@ public class TC08_Products_Test_TC08_TC09_TC21____________ extends TestBaseBefor
         //8. Verify all the products related to search are visible
         verifyAllProductsRelatedToSearch(searchTerm);
     }
-
-
-    //Test Case 21: Add review on product
-    //1. Launch browser
-    //2. Navigate to url 'http://automationexercise.com'
-    //3. Click on 'Products' button
-    //4. Verify user is navigated to ALL PRODUCTS page successfully
-    //5. Click on 'View Product' button
-    //6. Verify 'Write Your Review' is visible
-    //7. Enter name, email and review
-    //8. Click 'Submit' button
-    //9. Verify success message 'Thank you for your review.'
     List<WebElement> viewProducts;
 
-    @Test
+    @Test(description = """
+            Test Case 21: Add review on product
+            1. Launch browser
+            2. Navigate to url 'http://automationexercise.com'
+            3. Click on 'Products' button
+            4. Verify user is navigated to ALL PRODUCTS page successfully
+            5. Click on 'View Product' button
+            6. Verify 'Write Your Review' is visible
+            7. Enter name, email and review
+            8. Click 'Submit' button
+            9. Verify success message 'Thank you for your review.'""")
     public void addReviewOnProduct_TC21_Test() throws InterruptedException {
         //Test Case-21 REVIEWING ON A PRODUCT
         productsPage = new ProductsPage();

@@ -3,6 +3,7 @@ package AutomationExercise_Project_TestNG.tests;
 import AutomationExercise_Project_TestNG.pages.LoginPage;
 import AutomationExercise_Project_TestNG.utilities.Driver;
 import AutomationExercise_Project_TestNG.utilities.TestBaseBeforeAfterMethod;
+import jdk.jfr.Description;
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -16,21 +17,23 @@ import static AutomationExercise_Project_TestNG.utilities.ReusableMethods.*;
 
 
 public class TC02_Login_Test_TC02_TC03_TC04After__________ extends TestBaseBeforeAfterMethod {
-    //Test Case 2: Login User with correct email and password
-    // 1. Launch browser
-    //2. Navigate to url 'http://automationexercise.com'
-    //3. Verify that home page is visible successfully
-    //4. Click on 'Signup / Login' button
-    //5. Verify 'Login to your account' is visible
-    //6. Enter correct email address and password
-    //7. Click 'login' button
-    //8. Verify that 'Logged in as username' is visible
-    //9. Click 'Delete Account' button
-    //10. Verify that 'ACCOUNT DELETED!' is visible
+     @Description("""
+            Test Case 2: Login User with correct email and password
+            1. Launch browser
+            2. Navigate to url 'http://automationexercise.com'
+            3. Verify that home page is visible successfully
+            4. Click on 'Signup / Login' button
+            5. Verify 'Login to your account' is visible
+            6. Enter correct email address and password
+            7. Click 'login' button
+            8. Verify that 'Logged in as username' is visible
+            9. Click 'Delete Account' button
+            10. Verify that 'ACCOUNT DELETED!' is visible
+            """)
     Map<String, String> registerInfo;
     LoginPage loginpage;
 
-    @Test(priority = 3, dependsOnMethods = "registerAndLogout")
+    @Test(priority = 3, dependsOnMethods = "registerAndLogout", description = "Test Case 2: Login User with correct email and password")
     public void positive_loginTest_TC02() {
         //Test Case-2 LOGIN WITH VALID CREDENTIALS AND DELETES USER
         loginpage = new LoginPage();
@@ -51,15 +54,16 @@ public class TC02_Login_Test_TC02_TC03_TC04After__________ extends TestBaseBefor
     }
 
 
-    //Test Case 3: Login User with incorrect email and password
-    //1. Launch browser
-    //2. Navigate to url 'http://automationexercise.com'
-    //3. Verify that home page is visible successfully
-    //4. Click on 'Signup / Login' button
-    //5. Verify 'Login to your account' is visible
-    //6. Enter incorrect email address and password
-    //7. Click 'login' button
-    //8. Verify error 'Your email or password is incorrect!' is visible
+      @Description("""
+            Test Case 3: Login User with incorrect email and password
+            1. Launch browser
+            2. Navigate to url 'http://automationexercise.com'
+            3. Verify that home page is visible successfully
+            4. Click on 'Signup / Login' button
+            5. Verify 'Login to your account' is visible
+            6. Enter incorrect email address and password
+            7. Click 'login' button
+            8. Verify error 'Your email or password is incorrect!' is visible""")
 
     @Test(priority = 2, dependsOnMethods = "registerAndLogout", description = "Test Case 3: Login User with incorrect email and password")
     public void negative_loginTest_TC03() throws InterruptedException {
@@ -101,19 +105,20 @@ public class TC02_Login_Test_TC02_TC03_TC04After__________ extends TestBaseBefor
     }
 
 
-    //Test Case 4: Logout User
-    //1. Launch browser
-    //2. Navigate to url 'http://automationexercise.com'
-    //3. Verify that home page is visible successfully
-    //4. Click on 'Signup / Login' button
-    //5. Verify 'Login to your account' is visible
-    //6. Enter correct email address and password
-    //7. Click 'login' button
-    //8. Verify that 'Logged in as username' is visible
-    //9. Click 'Logout' button
-    //10. Verify that user is navigated to login page
+    @Description("""
+            Test Case 4: Logout User
+            1. Launch browser
+            2. Navigate to url 'http://automationexercise.com'
+            3. Verify that home page is visible successfully
+            4. Click on 'Signup / Login' button
+            5. Verify 'Login to your account' is visible
+            6. Enter correct email address and password
+            7. Click 'login' button
+            8. Verify that 'Logged in as username' is visible
+            9. Click 'Logout' button
+            10. Verify that user is navigated to login pag""")
 
-    @Test(priority = 1, dependsOnMethods = "registerAndLogout")
+    @Test(priority = 1, dependsOnMethods = "registerAndLogout", description = " Test Case 4: Logout User")
     public void logout_test_TC04()  {
         //Test Case 4 LOGIN WITH VALID CREDENTIALS AND LOGOUT USER
         loginpage = new LoginPage();

@@ -41,3 +41,4 @@ used basic lambda expressions
 test designed with end to end logic
 usage of varargs         verifyCategoryTitlesIsDisplayed("Men","Women","Kıds");
 string manipulation methods
+@parameter araştır
