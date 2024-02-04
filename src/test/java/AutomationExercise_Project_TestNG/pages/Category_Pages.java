@@ -27,9 +27,11 @@ public class Category_Pages {
     @FindBy(xpath = "//*[@id='Men']//li/a")
     public List<WebElement> categoriesUnderMen_List;
 
-
     @FindBy(xpath = "//*[@href='#Men']//*[@class='badge pull-right']")
     public WebElement menCategory_Button;
+
+    @FindBy(xpath = "//h4[@class='panel-title']")
+    public List<WebElement> categoryPanelTitles_List;
 
 
 

@@ -895,15 +895,14 @@ public class ReusableMethods {
     }
 
 
-
-    public static void verifyAdressDetailsAndReviewOrder(){
+    public static void verifyAdressDetailsAndReviewOrder() {
         CheckoutPage checkoutPage = new CheckoutPage();
         Assert.assertTrue(checkoutPage.addressDetails_Text.isDisplayed(), "Address Details title isn't displayed");
         Assert.assertTrue(checkoutPage.productNamesInOrderPage_text.size() > 0, "Ordered products are not visible");
     }
 
 
-    public static void verifySuccessMsgOrderPlacedSuccessfully(){
+    public static void verifySuccessMsgOrderPlacedSuccessfully() {
         CheckoutPage checkoutPage = new CheckoutPage();
         Assert.assertTrue(checkoutPage.successMsg_Text.isDisplayed()
                 , "Congratulations! Your order has been confirmed! texti goruntulenmiyor");
@@ -916,25 +915,177 @@ public class ReusableMethods {
         Files.deleteIfExists(Path.of(filePath));
     }
 
+    public static String clickAnyCategoryLinkUnderWomen() {
+        Category_Pages category_pages = new Category_Pages();
+        Random rnd = new Random();
+        scrollIntoViewAndClickByJavaScript(category_pages.womenCategory_Button);
+        handleGoogleVignette(() -> scrollIntoViewAndClickByJavaScript(category_pages.womenCategory_Button));
+
+        List<WebElement> womenCategory_list = category_pages.categoriesUnderWomen_List;
+        int randomElementIndex = rnd.nextInt(0, womenCategory_list.size());
+        String secilenUrunTexti = womenCategory_list.get(randomElementIndex).getText();
+        handleGoogleVignette(new Runnable() {
+            @Override
+            public void run() {
+                category_pages.womenCategory_Button.click();
+            }
+        });
+        category_pages.categoriesUnderWomen_List.get(randomElementIndex).click();
+        handleGoogleVignette(new Runnable() {
+            @Override
+            public void run() {
+                handleGoogleVignette(() -> scrollIntoViewAndClickByJavaScript(category_pages.womenCategory_Button));
+                category_pages.categoriesUnderWomen_List.get(randomElementIndex).click();
+            }
+        });
+        return secilenUrunTexti;
+    }
+
+    public static String clickAnyCategoryLinkUnderMen() {
+        Category_Pages category_pages = new Category_Pages();
+        Random rnd = new Random();
+        scrollIntoViewAndClickByJavaScript(category_pages.menCategory_Button);
+        handleGoogleVignette(() -> scrollIntoViewAndClickByJavaScript(category_pages.menCategory_Button));
+
+        List<WebElement> menCategory_list = category_pages.categoriesUnderMen_List;
+        int randomElementIndex = rnd.nextInt(0, menCategory_list.size());
+        String secilenUrunTexti = menCategory_list.get(randomElementIndex).getText();
+        handleGoogleVignette(new Runnable() {
+            @Override
+            public void run() {
+                category_pages.menCategory_Button.click();
+            }
+        });
+        category_pages.categoriesUnderMen_List.get(randomElementIndex).click();
+        handleGoogleVignette(new Runnable() {
+            @Override
+            public void run() {
+                scrollIntoViewAndClickByJavaScript(category_pages.menCategory_Button);
+                category_pages.categoriesUnderMen_List.get(randomElementIndex).click();
+            }
+        });
+        return secilenUrunTexti;
+    }
+
+    public static void verifyCategoryPageIsDisplayed(String selectedCategory) {
+        Category_Pages category_pages = new Category_Pages();
+        Assert.assertTrue(category_pages.titleInTheCenterOfPage_Text.getText().toLowerCase()
+                .contains(selectedCategory.toLowerCase()));
+    }
+
+
+    public static void verifyCategoryTitlesIsDisplayed(String ... titleOfCategory) {
+        Category_Pages category_pages = new Category_Pages();
+        List<String> categoryPanelTitles = new ArrayList<>();
+        category_pages.categoryPanelTitles_List.forEach(t->categoryPanelTitles.add(t.getText().toLowerCase()));
+        for (String str: titleOfCategory
+             ) {
+            Assert.assertTrue(categoryPanelTitles.contains(str.toLowerCase()));
+                    }
+    }
 
 
 
+    public static void clickProductsButton() {
+        HomePage homePage = new HomePage();
+        homePage.products_Button.click();
+    }
+
+    public static void verifyBrandsTitleTextIsDisplayed() {
+        BrandPage brandPage = new BrandPage();
+        Assert.assertEquals(brandPage.brandsTitle_text.getText().toLowerCase(), "brands");
+    }
 
 
+    public static void verifyBrandNamesAreDisplayed(){
+//        System.out.println("BRANDS TITLE DISPALYED");
+        BrandPage brandPage = new BrandPage();
+        List<WebElement> brandNamesWE_List = brandPage.brands_list;
+        //  brandNamesWE_List.forEach(t -> System.out.println("brand ->  " + t.getText()));
+        List<String> testData_list = new ArrayList<>();
+        getTestDataFromExcel("src/test/resources/test_data.xlsx", "test_data", 0)
+                .forEach(t->testData_list.add(t.replaceAll("\\s","")
+                        .replaceAll("\\W","")
+                        .replaceAll("\\d","")
+                        .toLowerCase()));
+//        System.out.println("testData_list = " + testData_list + "\ntestData size -> " + testData_list.size());
+
+        List<String> brandNamesActual_list = new ArrayList<>();
+        //  brandNamesWE_List.forEach(t-> brandNamesActual_list.add(t.getText().toLowerCase()));
+
+        for (WebElement we: brandPage.brands_list
+        ) {
+            brandNamesActual_list.add(we.getText()
+                    .replaceAll("\\s","")
+                    .replaceAll("\\W","")
+                    .replaceAll("\\d","")
+                    .toLowerCase());
+        }
+//        System.out.println("brandNamesActual_list = " + brandNamesActual_list + "\nbrandNamesActual_list size -> " + brandNamesActual_list.size());
+
+        int count=0;
+        for (String brandName : brandNamesActual_list
+        ) {
+            count++;
+            Assert.assertTrue(testData_list.contains(brandName));
+//            System.out.println(count + " eleman assert oldu");
+        }
+
+        System.out.println("**********************");
+        handleGoogleVignette(()-> Driver.getDriver().getCurrentUrl());
+    }
+
+    public static int clickOnAnyBrandTitleAndReturnIndex() {
+        Random rnd = new Random();
+        BrandPage brandPage = new BrandPage();
+        int randomIndex = rnd.nextInt(0, brandPage.brands_list.size());
+        brandPage.brands_list.get(randomIndex).click();
+        handleGoogleVignette(() -> brandPage.brands_list.get(randomIndex).click());
+        System.out.println("selectedBrand " + brandPage.brands_list.get(randomIndex).getText());
+        return randomIndex;
+    }
 
 
+    public static void verifyNavigatedToBrandPage(int indexOfTheBrand) {
+        BrandPage brandPage = new BrandPage();
+        String brandPageTitle = brandPage.titleInTheCenterOfPage_Text.getText()
+                .replaceAll("\\s", "")
+                .replaceAll("\\W", "")
+                .replaceAll("\\d", "")
+                .toLowerCase();
+// brandPage BAZEN ALLPRODUCTS GELİYOR
+//        if (brandPageTitle.contains("all")) {
+//            Driver.getDriver().navigate().refresh();
+//            brandPage.brands_list.get(randomIndex).click();
+//            waitFor(2);
+//            brandPageTitle = brandPage.titleInTheCenterOfPage_Text.getText()
+//                    .replaceAll("\\s", "")
+//                    .replaceAll("\\W", "")
+//                    .replaceAll("\\d", "")
+//                    .toLowerCase();
+//            System.out.println("!!!!!!!!!!!******if blogu calisti baslik allproducts****************");
+//        }
+
+        String selectedBrand = brandPage.brands_list.get(indexOfTheBrand).getText()
+                .replaceAll("\\s", "")
+                .replaceAll("\\W", "")
+                .replaceAll("\\d", "")
+                .toLowerCase();
+
+        System.out.println("brandPageTitle ----->" + brandPageTitle);
+        System.out.println("selectedBrand --------->" + selectedBrand);
+
+        handleGoogleVignette(() -> brandPage.brands_list.get(indexOfTheBrand).click());
+        Assert.assertTrue(brandPageTitle.contains(selectedBrand)
+                , "brand Page is not verified. the brand which is clicked is not the same with the opening page");
+    }
 
 
-
-
-
-
-
-
-
-
-
-
+    public static void verifyBrandProductsAreDisplayed() {
+        BrandPage brandPage = new BrandPage();
+        Assert.assertFalse(brandPage.brandProducts_List.isEmpty()
+                , "Brand products are not displayed");
+    }
 
 
 }

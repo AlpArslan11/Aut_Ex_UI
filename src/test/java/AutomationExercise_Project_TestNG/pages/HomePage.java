@@ -19,4 +19,9 @@ public class HomePage {
     @FindBy(xpath= "//*[@class='fa fa-lock']")
     public WebElement signUpLogin_Button;
 
+    @FindBy( xpath= "//li[2]/a[@href='/products']")
+    public WebElement products_Button;
+
+    @FindBy(xpath = "//div[@class='brands_products']//*[text()='Brands']")
+    public WebElement brandsTitle_text;
 }
