@@ -20,7 +20,6 @@ public class TC25_Functionality_Tests_TC25_TC26___________ extends TestBaseBefor
             6. Click on arrow at bottom right side to move upward
             7. Verify that page is scrolled up and 'Full-Fledged practice website for Automation Engineers' text is visible on screen""")
     Functions_Page functionsPage;
-
     @Test(description = "Test Case 25: Verify Scroll Up using 'Arrow' button and Scroll Down functionality")
     public void verifyScrollUpUsingArrowButtonAndScrollDownFunctionality_TC25() {
 
@@ -43,7 +42,6 @@ public class TC25_Functionality_Tests_TC25_TC26___________ extends TestBaseBefor
         //7. Verify that page is scrolled up and 'Full-Fledged practice website for Automation Engineers' text is visible on screen
         verifyFullFLedgedADSIsVisible();
     }
-
     @Description("""
             Test Case 26: Verify Scroll Up without 'Arrow' button and Scroll Down functionality
             1. Launch browser

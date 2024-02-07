@@ -33,8 +33,7 @@ public class TC08_Products_Test_TC08_TC09_TC21____________ extends TestBaseBefor
             7. Click on 'View Product' of first product
             8. User is landed to product detail page
             9. Verify that detail detail is visible: product name, category, price, availability, condition, brand""")
-    public void products_tests_TC08() throws InterruptedException {
-        //Test Case-8 LISTING THE PRODUCTS AND PRODUCT DETAILS
+    public void products_tests_TC08()  {
         productsPage = new ProductsPage();
 
         //1. Launch browser
@@ -93,7 +92,7 @@ public class TC08_Products_Test_TC08_TC09_TC21____________ extends TestBaseBefor
     }
 
     @Test(dataProvider = "searchItems", description = "Test Case-9 SEARCHING THE PRODUCTS AND VERIFIES ALL THE PRODUCTS ARE RELATED TO THE SEARCHED ITEM")
-    public void search_product_TC09(String searchTerm) throws InterruptedException {
+    public void search_product_TC09(String searchTerm)   {
         productsPage = new ProductsPage();
 
         //Test Case 9: Search Product

@@ -600,7 +600,7 @@ public class ReusableMethods {
         return firstProduct;
     }
 
-    public static void verifyAllProductsRelatedToSearch(String wordToBeSearched) throws InterruptedException {
+    public static void verifyAllProductsRelatedToSearch(String wordToBeSearched)   {
         ProductsPage productsPage = new ProductsPage();
         Actions actions = new Actions(Driver.getDriver());
         List<WebElement> products_list = productsPage.viewProduct_Buttons;
@@ -629,6 +629,9 @@ public class ReusableMethods {
             Assert.assertTrue(productsPage.productsAllInfo_Text.getText().toLowerCase()
                     .contains(wordToBeSearched.toLowerCase()));
             //         System.out.println("ürün " + (i + 1) + " kontrol edildi");
+
+
+
 
             Driver.getDriver().close();
             Driver.getDriver().switchTo().window(parentWindow);
