@@ -48,9 +48,13 @@ public class TC02_Login_Test_TC02_TC03_TC04After__________ extends TestBaseBefor
         //7. Click 'login' button
         login_fromLoginPage(registerInfo.get("email"), registerInfo.get("password"));
 
+
         //9. Click 'Delete Account' button
         deleteUserAndVerifyAccDeleted();
     }
+
+
+
 
 
       @Description("""
