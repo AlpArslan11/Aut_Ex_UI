@@ -1,4 +1,4 @@
-package AutomationExercise_Project_TestNG.tests;
+package AutomationExercise_Project_TestNG.tests.UI_Tests;
 
 import AutomationExercise_Project_TestNG.pages.Category_Pages;
 import AutomationExercise_Project_TestNG.utilities.Driver;
