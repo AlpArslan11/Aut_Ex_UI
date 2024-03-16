@@ -1,11 +1,11 @@
 package AutomationExercise_Project_TestNG.tests.Api_Tests;
 
-import AutomationExercise_Project_TestNG.base_Urls.AutomationExerciseBaseUrl;
+import AutomationExercise_Project_TestNG.base_Url.Aut_Ex_BaseUrl;
 import AutomationExercise_Project_TestNG.testDataDeposu.AutExercise_testData;
 import org.json.JSONObject;
 import org.testng.annotations.Test;
 
-public class TC011_POST_To_CreateRegister_User_Account extends AutomationExerciseBaseUrl {
+public class TC011_POST_To_CreateRegister_User_Account extends Aut_Ex_BaseUrl {
 
     @Test
     public void post_to_CreateRegister_User_Account_TC11(){

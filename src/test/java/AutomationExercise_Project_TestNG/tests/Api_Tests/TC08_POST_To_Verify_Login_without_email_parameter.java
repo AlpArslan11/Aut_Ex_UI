@@ -1,6 +1,6 @@
 package AutomationExercise_Project_TestNG.tests.Api_Tests;
 
-import AutomationExercise_Project_TestNG.base_Urls.AutomationExerciseBaseUrl;
+import AutomationExercise_Project_TestNG.base_Url.Aut_Ex_BaseUrl;
 import AutomationExercise_Project_TestNG.testDataDeposu.AutExercise_testData;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
@@ -11,7 +11,7 @@ import org.testng.asserts.SoftAssert;
 
 import static io.restassured.RestAssured.given;
 
-public class TC08_POST_To_Verify_Login_without_email_parameter extends AutomationExerciseBaseUrl {
+public class TC08_POST_To_Verify_Login_without_email_parameter extends Aut_Ex_BaseUrl {
 
     @Test
     public void post_To_Verify_Login_without_email_parameter_TC08(){

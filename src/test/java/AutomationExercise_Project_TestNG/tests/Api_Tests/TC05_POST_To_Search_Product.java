@@ -1,6 +1,6 @@
 package AutomationExercise_Project_TestNG.tests.Api_Tests;
 
-import AutomationExercise_Project_TestNG.base_Urls.AutomationExerciseBaseUrl;
+import AutomationExercise_Project_TestNG.base_Url.Aut_Ex_BaseUrl;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
-public class TC05_POST_To_Search_Product extends AutomationExerciseBaseUrl {
+public class TC05_POST_To_Search_Product extends Aut_Ex_BaseUrl {
 
 
 
