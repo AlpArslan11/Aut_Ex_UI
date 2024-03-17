@@ -14,14 +14,28 @@ import static io.restassured.RestAssured.given;
 public class TC07_POST_To_Verify_Login_with_valid_details extends Aut_Ex_BaseUrl {
 
 
-    @Test
+    @Test(description= """
+                          responseCode should be 200
+                          HTTP Status Code should be 200
+                          Content Type should be text/html
+                          body asssertion  Response Code: 200
+                          Response Message: User exists!
+                          """)
     public void post_To_Verify_Login_with_valid_details_TC07(){
-
-        //API URL: https://automationexercise.com/api/verifyLogin
-        //Request Method: POST
+        //API URL: https://automationexercise.com/api/searchProduct
         //Request Parameters: email, password
-        //Response Code: 200
-        //Response Message: User exists!
+
+        // Set The Url and Request Body
+        // Set the Expected Data
+        // Get the Response after sending request
+        // Do Assertion
+
+        //----------------------
+        // responseCode should be 200
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion  Response Code: 200
+        // Response Message: User exists!
 
         //1- Set the url and the request body
         specAut_Exercise.pathParam("pathparam","verifyLogin");
@@ -45,7 +59,11 @@ public class TC07_POST_To_Verify_Login_with_valid_details extends Aut_Ex_BaseUrl
         response.prettyPrint();
 
         //4- Do assertion
-
+        // responseCode should be 200
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion  Response Code: 200
+        // Response Message: User exists!
         response
                 .then()
                 .assertThat()
@@ -59,19 +77,5 @@ public class TC07_POST_To_Verify_Login_with_valid_details extends Aut_Ex_BaseUrl
         softAssert.assertEquals(responseBody.get("message"),expectedData.get("message"));
 
         softAssert.assertAll();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

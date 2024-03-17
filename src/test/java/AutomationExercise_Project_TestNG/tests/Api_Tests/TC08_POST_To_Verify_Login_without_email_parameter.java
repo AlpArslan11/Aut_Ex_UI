@@ -16,12 +16,19 @@ public class TC08_POST_To_Verify_Login_without_email_parameter extends Aut_Ex_Ba
     @Test
     public void post_To_Verify_Login_without_email_parameter_TC08(){
         //API URL: https://automationexercise.com/api/verifyLogin
-        //Request Method: POST
         //Request Parameter: password
-        //Response Code: 400
-        //Response Message: Bad request, email or password parameter
-        // is missing in POST request.
 
+        // Set The Url and Request Body
+        // Set the Expected Data
+        // Get the Response after sending request
+        // Do Assertion
+
+        //----------------------
+        // responseCode should be 400
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion  Response Code: 400
+        //Response Message: Bad request, email or password parameter is missing in POST request.
 
         //1- Set the URL and the request body
         specAut_Exercise.pathParam("pathparam","verifyLogin");
@@ -42,11 +49,15 @@ public class TC08_POST_To_Verify_Login_without_email_parameter extends Aut_Ex_Ba
 
 
         //4- Do assertion
+        // responseCode should be 400
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion  Response Code: 400
+        //Response Message: Bad request, email or password parameter is missing in POST request.
 
         JsonPath responseBody = response.jsonPath();
 
-        response
-                .then()
+        response.then()
                 .assertThat()
                 .contentType(ContentType.HTML)
                 .statusCode(200);
@@ -56,12 +67,6 @@ public class TC08_POST_To_Verify_Login_without_email_parameter extends Aut_Ex_Ba
         softAssert.assertEquals(responseBody.get("message"),expectedData.get("message"));
 
         softAssert.assertAll();
-
-
-
-
-
-
     }
 
 

@@ -17,11 +17,16 @@ public class TC02_POST_To_All_Products_List extends Aut_Ex_BaseUrl {
 
     @Test
     public void post_To_All_Products_List_TC002() {
-
         // Set The Url and Request Body
         // Set the Expected Data
         // Get the Response after sending request
         // Do Assertion
+
+        //----------------------
+        // responseCode should be 405
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion "message": "This request method is not supported."
 
         // Set The Url and Request Body
         specAut_Exercise.pathParam("pathparam", "productsList");
@@ -35,7 +40,7 @@ public class TC02_POST_To_All_Products_List extends Aut_Ex_BaseUrl {
 
         // Set the Expected Data
         AutExercise_testData autExerciseTestData= new AutExercise_testData();
-        JSONObject expectedData= autExerciseTestData.createExpectedData02();
+        JSONObject expectedData= autExerciseTestData.createExpectedData_tc02();
         System.out.println("expectedData = " + expectedData);
 
         // Get the Response after sending request
@@ -49,8 +54,11 @@ public class TC02_POST_To_All_Products_List extends Aut_Ex_BaseUrl {
 
         JsonPath responseBody= response.jsonPath();
 
-        // Do Assertion do assertion
-
+        // -----------Do Assertion do assertion --------------
+        // responseCode should be 405
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion "message": "This request method is not supported."
         response.then()
                 .statusCode(200)
                 .contentType(ContentType.HTML);
@@ -68,39 +76,21 @@ public class TC02_POST_To_All_Products_List extends Aut_Ex_BaseUrl {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-        @Test
+    @Test
     public void post_To_All_Products_List_TC02() {
 
-        // 1- Create Resuest url and response body.
-/*
-{
-"products": [
-        {
-            "id": 1,
-            "name": "Blue Top",
-            "price": "Rs. 500",
-            "brand": "Polo",
-            "category": {
-                "usertype": {
-                    "usertype": "Women"
-                },
-                "category": "Tops"
-            }
-]
-}
- */
+        // Set The Url and Request Body
+        // Set the Expected Data
+        // Get the Response after sending request
+        // Do Assertion
+
+        //----------------------
+        // responseCode should be 405
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion "message": "This request method is not supported."
+
+
         // 1- Set Resuest url and request body.
         String url = "https://automationexercise.com/api/productsList";
 
@@ -127,15 +117,17 @@ public class TC02_POST_To_All_Products_List extends Aut_Ex_BaseUrl {
 
         // 3- Get the Response
         Response response =given()
-                .contentType(ContentType.HTML) // bu content type da kabul et.
+                .contentType(ContentType.HTML)
                 .when()
-                .body(requestBody.toString()) // body bu ve string olarak oku. string belirtmezsek java direk obje gonderir.
+                .body(requestBody.toString())
                 .post(url);
-
-
-        JsonPath actualBody = response.jsonPath();  // bana dönen body actualBody olarak kaydedildi.
+        JsonPath actualBody = response.jsonPath();
 
         // 4- Assertion
+        // responseCode should be 405
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion "message": "This request method is not supported."
 
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(expectedBody.get("responseCode"), actualBody.get("responseCode"));

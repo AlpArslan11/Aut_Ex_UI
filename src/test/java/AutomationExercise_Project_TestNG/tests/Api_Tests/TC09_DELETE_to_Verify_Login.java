@@ -15,11 +15,18 @@ public class TC09_DELETE_to_Verify_Login extends Aut_Ex_BaseUrl {
 
     @Test
     public void delete_to_verify_login_TC09(){
-
         //API URL: https://automationexercise.com/api/verifyLogin
-        //Request Method: DELETE
-        //Response Code: 405
-        //Response Message: This request method is not supported
+        // Set The Url and Request Body
+        // Set the Expected Data
+        // Get the Response after sending request
+        // Do Assertion
+
+        //----------------------
+        // responseCode should be 405
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion  Response Code: 405
+        //Response Message: This request method is not supported.
 
 
         //1-Set the url and the request body
@@ -38,16 +45,18 @@ public class TC09_DELETE_to_Verify_Login extends Aut_Ex_BaseUrl {
                 .accept(ContentType.JSON)
                 .when()
                 .delete("{first}");
-
-
         response.prettyPrint();
 
         // Do assertion
+        // responseCode should be 405
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion  Response Code: 405
+        //Response Message: This request method is not supported.
         response.then()
                 .assertThat()
                 .statusCode(200)
                 .contentType(ContentType.HTML);
-
 
         JsonPath responseBody = response.jsonPath();
         SoftAssert softAssert = new SoftAssert();
@@ -55,10 +64,6 @@ public class TC09_DELETE_to_Verify_Login extends Aut_Ex_BaseUrl {
         softAssert.assertEquals(responseBody.get("message"),expectedData.get("message"));
 
         softAssert.assertAll();
-
-
-
-
     }
 
 

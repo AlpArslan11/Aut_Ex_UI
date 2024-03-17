@@ -17,18 +17,18 @@ public class TC06_POST_To_Search_Product_without_search_product_parameter extend
     @Test
     public void post_To_Search_Product_without_search_product_parameter_TC06(){
 
-        /*
-        Set the Url and request body
-        Set the expected Data
-        Send the request and get the response
-        Do assertion
-         */
-
         //API URL: https://automationexercise.com/api/searchProduct
-        //Request Method: POST
-        //Response Code: 400
-        //Response Message: Bad request, search_product parameter is missing in POST request.
+        // Set The Url and Request Body
+        // Set the Expected Data
+        // Get the Response after sending request
+        // Do Assertion
 
+        //----------------------
+        // responseCode should be 400
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion  Response Code: 400
+        // Response Message: Bad request, search_product parameter is missing in POST request
 
         //1- Set the Url and request body
         specAut_Exercise.pathParam("pathparam","searchProduct");
@@ -48,21 +48,21 @@ public class TC06_POST_To_Search_Product_without_search_product_parameter extend
         response.prettyPrint();
 
         // 4- Do Assertion
+        // responseCode should be 400
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion  Response Code: 400
+        // Response Message: Bad request, search_product parameter is missing in POST request
 
         response
                 .then()
                 .contentType(ContentType.HTML)
                 .statusCode(200);
-
         JsonPath responseBody = response.jsonPath();
 
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertEquals(responseBody.getInt("responseCode")
-                                ,expectedData.get("responseCode"));
-
-        softAssert.assertEquals(responseBody.get("message")
-                                ,expectedData.get("message"));
-
+        softAssert.assertEquals(responseBody.getInt("responseCode"),expectedData.get("responseCode"));
+        softAssert.assertEquals(responseBody.get("message"),expectedData.get("message"));
         softAssert.assertAll();
 
 

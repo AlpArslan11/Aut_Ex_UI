@@ -16,13 +16,20 @@ public class TC10_POST_To_Verify_Login_with_invalid_details extends Aut_Ex_BaseU
 
     @Test
     public void post_to_Verify_Login_with_invalid_details_TC10(){
-
         //API URL: https://automationexercise.com/api/verifyLogin
-        //Request Method: POST
         //Request Parameters: email, password (invalid values)
-        //Response Code: 404
-        //Response Message: User not found!
 
+        // Set The Url and Request Body
+        // Set the Expected Data
+        // Get the Response after sending request
+        // Do Assertion
+
+        //----------------------
+        // responseCode should be 404
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion  Response Code: 404
+        // Response Message: User not found!
 
         // 1- Set the Url and the request body
         specAut_Exercise.pathParam("pathparam","verifyLogin");
@@ -46,6 +53,11 @@ public class TC10_POST_To_Verify_Login_with_invalid_details extends Aut_Ex_BaseU
 
 
         // 4- do assertion
+        // responseCode should be 404
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion  Response Code: 404
+        // Response Message: User not found!
 
         JsonPath responseBody= response.jsonPath();
 
@@ -60,11 +72,5 @@ public class TC10_POST_To_Verify_Login_with_invalid_details extends Aut_Ex_BaseU
         softAssert.assertEquals(responseBody.get("message"),expectedData.get("message"));
 
         softAssert.assertAll();
-
-
-
-
-
-
     }
 }

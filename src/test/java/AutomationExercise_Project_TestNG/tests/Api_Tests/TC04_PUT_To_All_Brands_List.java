@@ -17,16 +17,17 @@ public class TC04_PUT_To_All_Brands_List extends Aut_Ex_BaseUrl {
     @Test
     public void put_To_All_Brands_List_TC04() {
 
-
-        // 1- Set the url and request body
-        // 2- Set the expected Data
-        // 3- Get the response after sending request
-        // 4- Do Assertion
-
         //API URL: https://automationexercise.com/api/brandsList
-        //Request Method: PUT
-        //Response Code: 405
-        //Response Message: This request method is not supported.
+        // Set The Url and Request Body
+        // Set the Expected Data
+        // Get the Response after sending request
+        // Do Assertion
+
+        //----------------------
+        // responseCode should be 405
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion  Response Code: 405 Response Message: This request method is not supported.
 
 
         // 1- Set the url and request body
@@ -40,8 +41,6 @@ public class TC04_PUT_To_All_Brands_List extends Aut_Ex_BaseUrl {
         AutExercise_testData autExerciseTestData = new AutExercise_testData();
         JSONObject expectedData = autExerciseTestData.createdExpectedData_tc04();
 
-
-
         // 3- Get the response after sending request
         Response response = given()
                 .spec(specAut_Exercise)
@@ -51,23 +50,19 @@ public class TC04_PUT_To_All_Brands_List extends Aut_Ex_BaseUrl {
                 .body(requestBody.toString())
                 .post("{pathparam}");
 
-
-
         // 4- Do Assertion
-
-        response.then().statusCode(200)
+        // responseCode should be 405
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion  Response Code: 405 Response Message: This request method is not supported.
+        response.then()
+                .statusCode(200)
                 .contentType(ContentType.HTML);
-
         JsonPath responseBody = response.jsonPath();
 
         SoftAssert softAssert = new SoftAssert();
-
-        softAssert.assertEquals(responseBody.getInt("responseCode")
-                ,expectedData.get("responseCode"));
-
-        softAssert.assertEquals(responseBody.get("message")
-                ,expectedData.get("message"));
-
+        softAssert.assertEquals(responseBody.getInt("responseCode"),expectedData.get("responseCode"));
+        softAssert.assertEquals(responseBody.get("message"),expectedData.get("message"));
         softAssert.assertAll();
 
     }

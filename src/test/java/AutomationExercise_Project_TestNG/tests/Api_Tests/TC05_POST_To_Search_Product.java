@@ -7,6 +7,7 @@ import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,18 +19,19 @@ public class TC05_POST_To_Search_Product extends Aut_Ex_BaseUrl {
 
     @Test
     public void post_To_Search_Product_TC05(){
-        /*
-        1- Set the url and request body
-        2- Set the expected data
-        3- get the response after sending
-        4- Do asserstion
-         */
+        // API URL: https://automationexercise.com/api/searchProduct
+        // Set The Url and Request Body
+        // Set the Expected Data
+        // Get the Response after sending request
+        // Do Assertion
 
-        //API URL: https://automationexercise.com/api/searchProduct
-        //Request Method: POST
-        //Request Parameter: search_product (For example: top, tshirt, jean)
-        //Response Code: 200
-        //Response JSON: Searched products list
+        //----------------------
+        // responseCode should be 200
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion  Response Code: 200  Response JSON: Searched products list
+
+
 
         // 1- Set the url and request body
         specAut_Exercise.pathParam("pathparam","searchProduct");
@@ -48,13 +50,13 @@ public class TC05_POST_To_Search_Product extends Aut_Ex_BaseUrl {
                 .multiPart("search_product","tshirt")
                 .when()
                 .post("{pathparam}");
-
-
-
-
         response.prettyPrint();
-        //4- Do the assertion
 
+        //4- Do the assertion
+        // responseCode should be 200
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion  Response Code: 200  Response JSON: Searched products list
         response
                 .then()
                 .assertThat()

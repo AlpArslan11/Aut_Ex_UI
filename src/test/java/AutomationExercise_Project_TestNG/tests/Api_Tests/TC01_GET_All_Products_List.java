@@ -11,19 +11,27 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import java.util.Collections;
+
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.equalTo;
 
 
 public class TC01_GET_All_Products_List extends Aut_Ex_BaseUrl {
 
 
     @Test
-    public void get_All_Products_List_TC03_testDataSpecKullanimi() {
+    public void get_All_Products_List_TC01_1_testDataSpecKullanimi() {
         // Set The Url and Request Body
         // Set the Expected Data
         // Get the Response after sending request
         // Do Assertion
 
+        // responseCode should be 200
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion
 
         // Set The Url and Request Body
         specAut_Exercise.pathParam("pathparam", "productsList");
@@ -46,6 +54,7 @@ public class TC01_GET_All_Products_List extends Aut_Ex_BaseUrl {
         // Do Assertion
 
         SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(response.statusCode(),200);
         softAssert.assertEquals(expectedData.getInt("responseCode"),responseBody.getInt("responseCode"));
 
         softAssert.assertEquals(responseBody.getInt("products[0].id"),expectedData.get("id"));
@@ -58,56 +67,45 @@ public class TC01_GET_All_Products_List extends Aut_Ex_BaseUrl {
         softAssert.assertAll();
     }
 
-
-       /*
-        Given
-            https://reqres.in/api/users/3
-        When
-            User sends a GET Request to the url
-        Then
-            HTTP Status Code should be 200
-        And
-            Content Type should be JSON
-        And
-            Status Line should be HTTP/1.1 200 OK
-     */
-
-
-        /*
-        --> Bu şekilde çözersek yani her bir basamağı ayri ayri çözersek bu hard assertion olur. Yani eger ilk assertte doğrulayamazsa
-        orda kalir. expception firlatir.
-         response.
-                then().
-                statusCode(200).
-                contentType(ContentType.JSON).
-                body("data.email",equalTo("janet.weaver@reqres.in"),
-                        "data.first_name",equalTo("Janet"),
-                        "data.last_name",equalTo("Weaver"),
-                        "support.text",equalTo("To keep ReqRes free, contributions towards server costs are appreciated!"));
-    }           --> Bu sekilde yazarsak bize ilk assert hata doğrulamasa bile diğerlerinide çalıştırır. en fail verir ve hangisinde hata var gösterir.
-
-         */
-
-
     @Test
-    public void get_All_Products_List_TC01() {
+    public void get_All_Products_List_TC01_2() {
 
-        //          Given  https://reqres.in/api/users/3
-        //          When   User sends a GET Request to the url
-        //          Then   HTTP Status Code should be 200
-        //          And    Content Type should be text/html
-        //          Given  https://reqres.in/api/users/3
-        //          When   User sends a GET Request to the url
+        // Set The Url and Request Body
+        // Set the Expected Data
+        // Get the Response after sending request
+        // Do Assertion
+
+        //----------------------
+        // responseCode should be 200
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion
 
 
-        //  specAut_Exercise.
+        // Set The Url and Request Body
+        specAut_Exercise.pathParam("pathparam", "productsList");
 
-        Response response = given().when().get("https://automationexercise.com/api/productsList");
+        // Get the Response after sending request
+        Response response = given()
+                .spec(specAut_Exercise)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .when()
+                .get("{pathparam}");
 
-        //          Then   responseCode should be 200
-        //          Then   HTTP Status Code should be 200
-        //          And    Content Type should be text/html
 
+        //-------- Do Assertion -----------
+        // responseCode should be 200
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion
+        response.then()
+                .statusCode(200)
+                .contentType(ContentType.HTML);
+
+
+//        Assert.assertEquals(response.statusCode(),200);
+//        Assert.assertEquals(response.jsonPath().get("responseCode").toString(),"200");
 
         Assert.assertEquals(response.jsonPath().get("products[0].id").toString(), "1");
         Assert.assertEquals(response.jsonPath().get("products[0].name").toString(), "Blue Top");
@@ -115,43 +113,26 @@ public class TC01_GET_All_Products_List extends Aut_Ex_BaseUrl {
         Assert.assertEquals(response.jsonPath().get("products[0].brand").toString(), "Polo");
         Assert.assertEquals(response.jsonPath().get("products[0].category.usertype.usertype").toString(), "Women");
         Assert.assertEquals(response.jsonPath().get("products[0].category.category").toString(), "Tops");
-        Assert.assertEquals(response.jsonPath().get("responseCode").toString(), "200");
-
-
-        response.then()
-                .statusCode(200)
-                .contentType(ContentType.HTML);
-
-
     }
 
 
     @Test
-    public void get_All_Products_List_TC01_2() {
-        // Request Url ve Body oluştur
-        // Expected Data Oluştur
+    public void get_All_Products_List_TC01_3() {
+        // Set The Url and Request Body
+        // Set the Expected Data
+        // Get the Response after sending request
+        // Do Assertion
 
-/*
-"responseCode": 200,
-    "products": [
-        {
-            "id": 1,
-            "name": "Blue Top",
-            "price": "Rs. 500",
-            "brand": "Polo",
-            "category": {
-                "usertype": {
-                    "usertype": "Women"
-                },
-                "category": "Tops"
-            }
-        },
- */
+        //----------------------
+        // responseCode should be 200
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion
 
-        // 1- Request Url ve Body oluştur
-        String url = "https://automationexercise.com/api/productsList";
+        // 1- Set The Url and Request Body
+        specAut_Exercise.pathParam("pathparam", "productsList");
 
-        // 2- Expected Data Oluştur
+        // 2- Set the Expected Data
         JSONObject expectedBody = new JSONObject();
         expectedBody.put("id", "1");
         expectedBody.put("name", "Blue Top");
@@ -162,26 +143,30 @@ public class TC01_GET_All_Products_List extends Aut_Ex_BaseUrl {
         expectedBody.put("responseCode", "200");
 
 
-        //3-  Response Kaydet
+        //3-  Get the Response after sending request
         Response response = given()
+                .spec(specAut_Exercise)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
                 .when()
-                .get(url);
-        // response.jsonPath().prettyPrint();
+                .get("{pathparam}");
 
 
-        //4- Assertion
+        //4. -------- Do Assertion -----------
+        // responseCode should be 200
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion
         SoftAssert softAssert = new SoftAssert();
 
 
-        //          Then   HTTP Status Code should be 200
-        //          And    Content Type should be text/html
         response
                 .then()
                 .assertThat()
                 .contentType(ContentType.HTML)
                 .statusCode(200);
 
-        JsonPath actBody = response.jsonPath(); // dönen response'u jsonPath formatına donusturmemiz gerekiyor.
+        JsonPath actBody = response.jsonPath();
 
         softAssert.assertEquals(expectedBody.get("id"), actBody.get("products[0].id").toString());
         softAssert.assertEquals(expectedBody.get("name"), actBody.get("products[0].name").toString());
@@ -189,13 +174,7 @@ public class TC01_GET_All_Products_List extends Aut_Ex_BaseUrl {
         softAssert.assertEquals(expectedBody.get("brand"), actBody.get("products[0].brand").toString());
         softAssert.assertEquals(expectedBody.get("category_usertype"), actBody.get("products[0].category.usertype.usertype").toString());
         softAssert.assertEquals(expectedBody.get("category_category"), actBody.get("products[0].category.category").toString());
-        //          Then   responseCode should be 200
         softAssert.assertEquals(expectedBody.get("responseCode"), actBody.get("responseCode").toString());
-
         softAssert.assertAll();
-
-
     }
-
-
 }

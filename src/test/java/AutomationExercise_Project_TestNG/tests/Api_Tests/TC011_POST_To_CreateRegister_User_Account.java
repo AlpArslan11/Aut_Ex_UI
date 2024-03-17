@@ -10,13 +10,23 @@ public class TC011_POST_To_CreateRegister_User_Account extends Aut_Ex_BaseUrl {
     @Test
     public void post_to_CreateRegister_User_Account_TC11(){
         //API URL: https://automationexercise.com/api/createAccount
-        //Request Method: POST
         //Request Parameters: name, email, password, title (for example: Mr, Mrs, Miss),
         // birth_date, birth_month, birth_year, firstname, lastname, company,
         // address1, address2, country, zipcode, state, city, mobile_number
 
-        //Response Code: 201
-        //Response Message: User created!
+        // Set The Url and Request Body
+        // Set the Expected Data
+        // Get the Response after sending request
+        // Do Assertion
+
+        //----------------------
+        // responseCode should be 201
+        // HTTP Status Code should be 200
+        // Content Type should be text/html
+        // body asssertion  Response Code: 201
+        // Response Message: User created!
+
+
 
         // 1- Set the url and the request body
         specAut_Exercise.pathParam("pathparam","createAccount");

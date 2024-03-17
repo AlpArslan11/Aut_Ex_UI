@@ -24,7 +24,7 @@ public class AutExercise_testData {
 
 
 
-    public JSONObject createExpectedData02(){
+    public JSONObject createExpectedData_tc02(){
         JSONObject expectedData = new JSONObject();
         expectedData.put("responseCode", 405);
         expectedData.put("message" , "This request method is not supported.");
