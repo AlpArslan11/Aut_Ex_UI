@@ -1,6 +1,7 @@
 package AutomationExercise_Project_TestNG.utilities;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -32,12 +33,6 @@ public class ConfigReader {
 
            // file input steam i kapatilir
             fis.close();
-
-
-
-
-
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -51,14 +46,23 @@ public class ConfigReader {
           Properties class'indan getProperty( ) method'unu kullanarak
           bu key'e ait value'u bize getirdi
          */
-
         return properties.getProperty(key); // value dondurur.
 
     }
 
 
+    public static void setProperty(String key, String value) {
+        properties.setProperty(key, value);
+        String path = "configuration.properties";
+        try {
+            FileOutputStream fos = new FileOutputStream(path);
+            properties.store(fos, null);
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-
+    }
 
 
 
