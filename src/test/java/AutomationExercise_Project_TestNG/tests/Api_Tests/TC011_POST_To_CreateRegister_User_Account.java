@@ -93,4 +93,7 @@ public class TC011_POST_To_CreateRegister_User_Account extends Aut_Ex_BaseUrl {
         softAssert.assertAll();
 
    }
+   //    JSONObject expectedData = autExercise_testData.createExpectedData(201,"User created!");
+   // TUM TESTLERDE BU BODY VARSA KONTROL ET BUNA UYGUN OALRAK TASARLA
+
 }
