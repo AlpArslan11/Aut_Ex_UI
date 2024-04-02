@@ -18,7 +18,7 @@ static waiting Thread
 
 Throws Exception
 
-Turkish assertion text
+Türkçe assertion text
 
 clear all souts from reusableMethods and classes
 
